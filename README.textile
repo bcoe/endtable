@@ -1,0 +1,3 @@
+h1. Endtable
+
+A ridiculously simple ORM for Node running on top of CouchDB.
