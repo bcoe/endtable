@@ -1,7 +1,7 @@
 require.paths.unshift(__dirname);
 require('./lib/jspec');
 
-Endtable = require('endtable').Endtable;
+EndtableCore = require('endtable').EndtableCore;
 connector = require('../lib/endtable/couch-connector');
 
 /**
@@ -11,7 +11,7 @@ connector = require('../lib/endtable/couch-connector');
 function runTestsAsync() {
 	specs = {
 		independant: [
-	    	'endtable',
+	    	'endtable-core',
 			'couch-connector'
 		]
 	}
@@ -39,7 +39,7 @@ function runTestsAsync() {
 }
 
 function resetDBAndRunTests() {
-	var endtable = new Endtable({
+	var endtableCore = new EndtableCore({
 		port: 5984,
 		host: 'localhost',
 		user: '',
@@ -47,8 +47,8 @@ function resetDBAndRunTests() {
 		database: 'test'
 	});
 
-	endtable.connector.deleteDatabase(function() {
-		endtable.connector.createDatabase(function() {
+	endtableCore.connector.deleteDatabase(function() {
+		endtableCore.connector.createDatabase(function() {
 			runTestsAsync();
 		});
 	});

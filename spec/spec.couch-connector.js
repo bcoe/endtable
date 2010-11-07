@@ -1,4 +1,4 @@
-describe 'connector'
+describe 'CouchConnector'
 
 	describe 'loadDocument with mocked connection'
 	
@@ -18,6 +18,11 @@ describe 'connector'
 					lastURL = url;
 				}
 			}
+		end
+		
+		it 'should generate a restful URL based on a document id'
+			c.loadDocument('foobar')
+			lastURL.should.equal('/foobar')
 		end
 	
 		it 'should generate a restful URL based on DB and Keys'
@@ -55,7 +60,7 @@ describe 'connector'
 	end
 	
 	describe 'loadDocument with working connection'
-		it 'should create an exception if the requested view does not exist (ASYNC)'
+		it 'should create an exception if the requested view does not exist'
 
 			var c = new connector.connector({
 				port: 5984,
@@ -71,6 +76,7 @@ describe 'connector'
 				error.error.should.match('not_found');
 			});
 			
+			this.should.assert_later()
 		end
 	end
 	

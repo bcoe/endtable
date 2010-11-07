@@ -1795,6 +1795,7 @@
     be_within          : "actual >= expected[0] && actual <= last(expected)",
     have_length_within : "actual.length >= expected[0] && actual.length <= last(expected)",
     contain		       : "typeof actual == 'string' ? actual.indexOf(expected) != -1 : false",
+	assert_later	   : "true",
 
     receive : { defer : true, match : function(actual, method, times) {
       var proxy = new JSpec.ProxyAssertion(actual, method, times, this.negate)
