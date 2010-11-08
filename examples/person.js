@@ -11,7 +11,7 @@ function populateData() {
 		type: 'person',
 		fields: {
 			name: 'Sally Brown',
-			age: '24'
+			age: 24
 		}
 	});
 	
@@ -19,7 +19,7 @@ function populateData() {
 		type: 'person',
 		fields: {
 			name: 'Benjamin Coe',
-			age: '27'
+			age: 27
 		}
 	});
 	
@@ -27,7 +27,7 @@ function populateData() {
 		type: 'person',
 		fields: {
 			name: 'Benjamin Coe',
-			age: '30'
+			age: 30
 		}
 	});
 	
@@ -36,7 +36,7 @@ function populateData() {
 		type: 'person',
 		fields: {
 			name: 'Benjamin Coe',
-			age: '31'
+			age: 31
 		}
 	});
 	
@@ -45,7 +45,7 @@ function populateData() {
 		type: 'person',
 		fields: {
 			name: 'Eric Brown',
-			age: '28'
+			age: 28
 		}
 	});
 	
@@ -53,7 +53,7 @@ function populateData() {
 		type: 'person',
 		fields: {
 			name: 'Sally Johnson',
-			age: '26'
+			age: 26
 		}
 	});
 }

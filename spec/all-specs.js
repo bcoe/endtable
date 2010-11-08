@@ -1,8 +1,19 @@
 require.paths.unshift(__dirname);
 require('./lib/jspec');
 
-EndtableCore = require('endtable').EndtableCore;
+var fs = require('fs');
+var endtable = require('endtable');
+EndtableCore = endtable.EndtableCore;
+EndtableObject = endtable.EndtableObject;
 connector = require('../lib/endtable/couch-connector');
+
+var endtableCore = new EndtableCore({
+	port: 5984,
+	host: 'localhost',
+	user: '',
+	password: '',
+	database: 'test'
+});
 
 /**
  * Run tests after a setTimeout which allows asynchronous
@@ -38,18 +49,24 @@ function runTestsAsync() {
 	}
 }
 
-function resetDBAndRunTests() {
-	var endtableCore = new EndtableCore({
-		port: 5984,
-		host: 'localhost',
-		user: '',
-		password: '',
-		database: 'test'
-	});
+function loadFixtures() {
+	var people = JSON.parse( fs.readFileSync('spec/fixtures/people.json') );
+	var size = people.length;
+	var count = 0;
+	for (var i = 0, person; (person = people[i]) != null; i++) {
+		endtableCore.saveDocument({type: 'person', fields: person}, function() {
+			count++;
+			if (count == size) {
+				runTestsAsync();
+			}
+		});
+	}
+}
 
+function resetDBAndRunTests() {
 	endtableCore.connector.deleteDatabase(function() {
 		endtableCore.connector.createDatabase(function() {
-			runTestsAsync();
+			loadFixtures();
 		});
 	});
 }
