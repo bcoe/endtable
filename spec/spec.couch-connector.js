@@ -45,16 +45,16 @@ describe 'CouchConnector'
 			lastURL.should.equal('/_view/person/by_name_age?descending=true')
 		end
 		
-		it 'should build a URL with the get parameters descending and startKey'
+		it 'should build a URL with the get parameters descending and startkey'
 			c.loadDocument({
 				keys: ['name', 'age'],
 				type: 'person',
 				descending: true,
-				startKey: ['john', '13'],
-				endKey: 'foo'
+				startkey: ['john', '13'],
+				endkey: 'foo'
 			})
 			
-			lastURL.should.match('startKey=%5B%22john%22%2C%2213%22%5D')
+			lastURL.should.match('startkey=%5B%22john%22%2C%2213%22%5D')
 			lastURL.should.contain('descending=true')
 		end
 	end

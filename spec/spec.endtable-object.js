@@ -1,7 +1,21 @@
-describe 'EndtableObject'
-    describe 'load'
+describe 'Endtable.Object'
+	before
+		endtableCore = new endtable.Core({
+			database: 'test'
+		});
+		endtableObject = new endtable.Object();
+	end
+		
+	describe 'load'
 		it 'should populate an objects instance variables with fields from key/value store'
-			endtableObject = new EndtableObject();
+			endtableCore.loadDocument({
+				keys: 'name',
+				type: 'person',
+				key: 'Mark Twain'
+			}, function(error, doc) {
+				doc.rows[0].value.name.should.equal('Mark Twain')
+				doc.rows[0].value.age.should.equal(150)
+			});
 		end
 	end
 end

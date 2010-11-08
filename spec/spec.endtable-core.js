@@ -1,14 +1,14 @@
-describe 'EndtableCore'
+describe 'Endtable.Core'
 
 	describe 'init'	
 		it 'should extend base object with defaults'
-			endtableCore = new EndtableCore()
+			endtableCore = new endtable.Core()
 			endtableCore.host.should.equal('localhost')
 			endtableCore.database.should.equal('development')
 		end
 		
 		it 'should overwrite defaults with params'
-			endtableCore = new EndtableCore({
+			endtableCore = new endtable.Core({
 				host: '127.0.0.1',
 				database: 'production'
 			})
@@ -21,7 +21,7 @@ describe 'EndtableCore'
 		
 		it 'should create a view if one does not exist'
 			createViewCalled = false
-			endtableCore = new EndtableCore()
+			endtableCore = new endtable.Core()
 			endtableCore.connector = {
 				loadDocument: function(params, callback) {
 					callback({
@@ -43,7 +43,7 @@ describe 'EndtableCore'
 		end
 	
 		it 'should update an existing design with a new view'
-			endtableCore = new EndtableCore({
+			endtableCore = new endtable.Core({
 				database: 'test'
 			});
 			
@@ -77,7 +77,7 @@ describe 'EndtableCore'
 	
 	describe 'saveDocument'
 		it 'should save a document to couch with the appropriate fields.'
-			endtableCore = new EndtableCore({
+			endtableCore = new endtable.Core({
 				database: 'test'
 			});
 			

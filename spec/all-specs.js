@@ -3,12 +3,10 @@ require('./lib/jspec');
 
 var fs = require('fs');
 var sys = require('sys');
-var endtable = require('endtable');
-EndtableCore = endtable.EndtableCore;
-EndtableObject = endtable.EndtableObject;
+endtable = require('endtable');
 connector = require('../lib/endtable/couch-connector');
 
-var endtableCore = new EndtableCore({
+var endtableCore = new endtable.Core({
 	port: 5984,
 	host: 'localhost',
 	user: '',
@@ -24,7 +22,8 @@ function runTestsAsync() {
 	specs = {
 		independant: [
 	    	'endtable-core',
-			'couch-connector'
+			'couch-connector',
+			'endtable-object'
 		]
 	}
 	
@@ -37,6 +36,7 @@ function runTestsAsync() {
 
 	function run(specs) {
 		var tests = [];
+		
 		specs.forEach(function(spec){
 			JSpec.exec('spec/spec.' + spec + '.js');
 		})
