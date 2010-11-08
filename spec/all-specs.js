@@ -2,6 +2,7 @@ require.paths.unshift(__dirname);
 require('./lib/jspec');
 
 var fs = require('fs');
+var sys = require('sys');
 var endtable = require('endtable');
 EndtableCore = endtable.EndtableCore;
 EndtableObject = endtable.EndtableObject;
@@ -50,16 +51,30 @@ function runTestsAsync() {
 }
 
 function loadFixtures() {
-	var people = JSON.parse( fs.readFileSync('spec/fixtures/people.json') );
-	var size = people.length;
+	var fixtures = {
+		'people': ''
+	};
+	var size = 0;
 	var count = 0;
-	for (var i = 0, person; (person = people[i]) != null; i++) {
-		endtableCore.saveDocument({type: 'person', fields: person}, function() {
-			count++;
-			if (count == size) {
-				runTestsAsync();
+	
+	for (var fixtureName in fixtures) {
+		if (fixtures.hasOwnProperty(fixtureName)) {
+			fixtures[fixtureName] = JSON.parse( fs.readFileSync('spec/fixtures/' + fixtureName + '.json') );
+			size += fixtures[fixtureName].length;
+		}
+	}
+
+	for (var fixtureName in fixtures) {
+		if (fixtures.hasOwnProperty(fixtureName)) {			
+			for (var i = 0, fixture; (fixture = fixtures[fixtureName][i]) != null; i++) {
+				endtableCore.saveDocument({type: fixture.type, fields: fixture}, function() {
+					count++;
+					if (count == size) {
+						runTestsAsync();
+					}
+				});
 			}
-		});
+		}
 	}
 }
 
