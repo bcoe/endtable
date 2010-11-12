@@ -3,19 +3,23 @@ describe 'Endtable.Object'
 		endtableCore = new endtable.Core({
 			database: 'test'
 		});
-		endtableObject = new endtable.Object();
 	end
 		
 	describe 'load'
 		it 'should populate an objects instance variables with fields from key/value store'
-			endtableCore.loadDocument({
+			
+			assertCallback = function(obj) {
+				obj.name.should.equal('Mark Twain')
+				obj.age.should.equal(150)
+			}
+			
+			endtableObject = new endtable.Object({
+				engine: endtableCore
+			}).load({
 				keys: 'name',
 				type: 'person',
-				key: 'Mark Twain'
-			}, function(error, doc) {
-				doc.rows[0].value.name.should.equal('Mark Twain')
-				doc.rows[0].value.age.should.equal(150)
-			});
+				key: 'Mark Twain'	
+			}, assertCallback); 
 			
 			this.should.assert_later()
 		end
