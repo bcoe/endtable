@@ -1,7 +1,7 @@
 var sys = require('sys');
 
-var EndtableCore = require('endtable').EndtableCore;
-endtableCore = new EndtableCore({
+var endtable = require('endtable');
+endtableCore = new endtable.Core({
 	database: 'people_example'
 });
 
@@ -60,13 +60,13 @@ function populateData() {
 
 function createViews() {
 	endtableCore.loadDocument({
+		keys: ['name', 'age'],
+		type: 'person'
+	})
+	
+	endtableCore.loadDocument({
 		keys: ['age'],
 		type: 'person'
-	}, function() {
-		endtableCore.loadDocument({
-			keys: ['name', 'age'],
-			type: 'person'
-		});	
 	});
 }
 

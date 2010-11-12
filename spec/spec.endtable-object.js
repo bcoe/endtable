@@ -16,6 +16,8 @@ describe 'Endtable.Object'
 				doc.rows[0].value.name.should.equal('Mark Twain')
 				doc.rows[0].value.age.should.equal(150)
 			});
+			
+			this.should.assert_later()
 		end
 	end
 end

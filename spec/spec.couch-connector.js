@@ -93,12 +93,20 @@ describe 'CouchConnector'
 			})
 			
 			c.connection = {
+				
 				saveDoc: function(documentName, document) {
 					lastDocument = document
 				},
 				
 				getDoc: function(documentName, callback) {
 					callback(null, null);
+				},
+				
+			}
+			
+			c.stackProcessor = {
+				runLater: function(context, callback, arguments) {
+					callback.apply(context, arguments);
 				}
 			}
 		end
@@ -131,6 +139,43 @@ describe 'CouchConnector'
 				type: 'person'
 			})
 			lastDocument.views.by_name_age.map.should.contain('emit([doc.name, doc.age], doc);')
+		end
+	end
+	
+	describe 'createView'
+		it 'when two createView calls are executed in a row it should add both views to a design'
+			c = new connector.connector({
+				port: 5984,
+				host: 'localhost',
+				user: '',
+				password: '',
+				database: 'test'
+			});
+			c.connect();
+			
+			c.createView({
+				keys: ['name', 'type', 'age'],
+				type: 'two_view_test'
+			})
+			
+			c.createView({
+				keys: ['type', 'name', 'age'],
+				type: 'two_view_test'
+			})
+			
+			endtableCore = new endtable.Core({
+				database: 'test'
+			});
+			
+			// Examine the design created.
+			setTimeout(function() {
+				endtableCore.loadDocument('_design/two_view_test', function(error, doc) {
+					(typeof doc.views.by_name_type_age).should.equal('object');
+					(typeof doc.views.by_type_name_age).should.equal('object');
+				});
+			}, 100);
+	
+			this.should.assert_later()
 		end
 	end
 end
