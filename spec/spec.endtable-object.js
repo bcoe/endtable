@@ -18,10 +18,28 @@ describe 'Endtable.Object'
 			}).load({
 				keys: 'name',
 				type: 'person',
-				key: 'Mark Twain'	
-			}, assertCallback); 
+				key: 'Mark Twain'
+			}, assertCallback);
 			
 			this.should.assert_later()
 		end
+	end
+	
+	it 'shoud set the dirty flag on the object when an instance variable is uploaded'
+		assertCallback = function(obj) {
+			obj.dirty.should.equal(false);
+			obj.name = 'Ben Coe'
+			obj.dirty.should.equal(true);
+		}
+		
+		endtableObject = new endtable.Object({
+			engine: endtableCore
+		}).load({
+			keys: 'name',
+			type: 'person',
+			key: 'Mark Twain'
+		}, assertCallback);
+		
+		this.should.assert_later()
 	end
 end
