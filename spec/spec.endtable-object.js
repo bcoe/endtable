@@ -22,6 +22,31 @@ describe 'Endtable.Object'
 		end
 	end
 	
+	it 'should set a dirty flag on the object when an instance variable is added'
+		endtableCore = new endtable.Core({
+			database: 'test'
+		});
+		
+		assertCallback = function(error, obj) {
+			obj._dirty.should.equal(false);
+			obj.newKey = ['apple', 'banana'];
+			
+			setTimeout(function() {
+				obj._dirty.should.equal(true);
+			}, 350);
+		}
+		
+		endtableObject = new endtable.Object({
+			engine: endtableCore
+		}).load({
+			keys: 'name',
+			type: 'person',
+			key: 'Zeebert'
+		}, assertCallback);
+		
+		this.should.assert_later()
+	end
+	
 	it 'should set the dirty flag on the object when an instance variable is updated'
 		endtableCore = new endtable.Core({
 			database: 'test'
@@ -105,5 +130,5 @@ describe 'Endtable.Object'
 		}, 350);
 		
 		this.should.assert_later()
-	end
+	end	
 end
