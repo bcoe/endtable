@@ -6,56 +6,37 @@ endtableCore = new endtable.Core({
 });
 
 function populateData() {
-	
-	endtableCore.saveDocument({
+	var person = new endtable.Object({
+		engine: endtableCore,
 		type: 'person',
-		fields: {
-			name: 'Sally Brown',
-			age: 24
-		}
-	});
-	
-	endtableCore.saveDocument({
+		name: 'Christian',
+		age: 28,
+		sex: 'male'
+	})
+
+	person = new endtable.Object({
+		engine: endtableCore,
 		type: 'person',
-		fields: {
-			name: 'Benjamin Coe',
-			age: 27
-		}
-	});
+		name: 'Benjamin Coe',
+		age: 27,
+		sex: 'male'
+	})
 	
-	endtableCore.saveDocument({
+	person = new endtable.Object({
+		engine: endtableCore,
 		type: 'person',
-		fields: {
-			name: 'Benjamin Coe',
-			age: 30
-		}
-	});
+		name: 'Sally Johnson',
+		age: 24,
+		sex: 'female'
+	})
 	
-	
-	endtableCore.saveDocument({
+	person = new endtable.Object({
+		engine: endtableCore,
 		type: 'person',
-		fields: {
-			name: 'Benjamin Coe',
-			age: 31
-		}
-	});
-	
-	
-	endtableCore.saveDocument({
-		type: 'person',
-		fields: {
-			name: 'Eric Brown',
-			age: 28
-		}
-	});
-	
-	endtableCore.saveDocument({
-		type: 'person',
-		fields: {
-			name: 'Sally Johnson',
-			age: 26
-		}
-	});
+		name: 'JBoss',
+		age: 30,
+		sex: 'male'
+	})	
 }
 
 function createViews() {
@@ -80,3 +61,5 @@ function createViews() {
 	createViews();
 	populateData();
 });
+
+sys.puts('Running... Hit CTRL-C To Exit.');

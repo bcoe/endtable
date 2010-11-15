@@ -1,4 +1,14 @@
 describe 'Endtable.Object'
+	describe 'constructor'
+		it 'should save a new object created'
+		
+		end
+		
+		it 'should re-save new objects when instance variables are added'
+			
+		end
+	end
+
 	describe 'load'
 		it 'should populate an objects instance variables with fields from key/value store'
 			endtableCore = new endtable.Core({
