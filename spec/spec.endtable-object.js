@@ -22,7 +22,7 @@ describe 'Endtable.Object'
 		end
 	end
 	
-	it 'shoud set the dirty flag on the object when an instance variable is uploaded'
+	it 'shoud set the dirty flag on the object when an instance variable is updated'
 		endtableCore = new endtable.Core({
 			database: 'test'
 		});

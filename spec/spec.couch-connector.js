@@ -104,7 +104,7 @@ describe 'CouchConnector'
 				
 			}
 			
-			c.stackProcessor = {
+			c.synchronousProcessor = {
 				runSynchronous: function(context, callback, arguments) {
 					callback.apply(context, arguments);
 				}
