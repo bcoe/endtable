@@ -22,15 +22,15 @@ describe 'Endtable.Object'
 		end
 	end
 	
-	it 'shoud set the dirty flag on the object when an instance variable is updated'
+	it 'should set the dirty flag on the object when an instance variable is updated'
 		endtableCore = new endtable.Core({
 			database: 'test'
 		});
 		
 		assertCallback = function(error, obj) {
-			obj.dirty.should.equal(false);
+			obj._dirty.should.equal(false);
 			obj.name = 'Ben Coe'
-			obj.dirty.should.equal(true);
+			obj._dirty.should.equal(true);
 		}
 		
 		endtableObject = new endtable.Object({
@@ -40,6 +40,69 @@ describe 'Endtable.Object'
 			type: 'person',
 			key: 'Mark Twain'
 		}, assertCallback);
+		
+		this.should.assert_later()
+	end
+	
+	it 'should automatically persist an object to couch if it has been dirtied'
+		var dirtyCallback = function(error, obj) {
+			obj.name = 'Brian Wilson';
+		}
+		
+		endtableCore = new endtable.Core({
+			database: 'test'
+		});
+		
+		var saveCalled = false;
+		endtableCore.connector.saveDocument = function(params, callback) {
+			saveCalled = true;
+		}
+		
+		endtableObject = new endtable.Object({
+			engine: endtableCore
+		}).load({
+			keys: 'name',
+			type: 'person',
+			key: 'Christian'
+		}, dirtyCallback);
+		
+		setTimeout(function() {
+			saveCalled.should.equal(true);
+		}, 350);
+		
+		this.should.assert_later()
+	end
+	
+	it 'should actually save the values back to couch when an object is dirtied'
+		var dirtyCallback = function(error, obj) {
+			obj.name = 'Brian Wilson';
+		}
+		
+		endtableCore = new endtable.Core({
+			database: 'test'
+		});
+		
+		endtableObject = new endtable.Object({
+			engine: endtableCore
+		}).load({
+			keys: 'name',
+			type: 'person',
+			key: 'Christian'
+		}, dirtyCallback);
+		
+		setTimeout(function() {
+			var loadCallback = function(error, obj) {
+				obj.name.should.equal('Brian Wilson');
+			}
+			
+			endtableObject = new endtable.Object({
+				engine: endtableCore
+			}).load({
+				keys: 'name',
+				type: 'person',
+				key: 'Brian Wilson'
+			}, loadCallback);
+		}, 350);
 		
 		this.should.assert_later()
 	end

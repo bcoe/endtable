@@ -65,7 +65,7 @@ function loadFixtures() {
 	}
 
 	for (var fixtureName in fixtures) {
-		if (fixtures.hasOwnProperty(fixtureName)) {			
+		if (fixtures.hasOwnProperty(fixtureName)) {
 			for (var i = 0, fixture; (fixture = fixtures[fixtureName][i]) != null; i++) {
 				endtableCore.saveDocument({type: fixture.type, fields: fixture}, function() {
 					count++;
