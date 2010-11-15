@@ -72,7 +72,7 @@ describe 'CouchConnector'
 
 			c.connect()
 
-			c.loadDocument({keys: ['name', 'age'], type: 'person'}, function(error, doc) {
+			c.loadDocument({keys: ['name', 'age'], type: 'not_a_person'}, function(error, doc) {
 				error.error.should.match('not_found');
 			});
 			
@@ -105,7 +105,7 @@ describe 'CouchConnector'
 			}
 			
 			c.stackProcessor = {
-				runLater: function(context, callback, arguments) {
+				runSynchronous: function(context, callback, arguments) {
 					callback.apply(context, arguments);
 				}
 			}
@@ -173,7 +173,7 @@ describe 'CouchConnector'
 					(typeof doc.views.by_name_type_age).should.equal('object');
 					(typeof doc.views.by_type_name_age).should.equal('object');
 				});
-			}, 100);
+			}, 205);
 	
 			this.should.assert_later()
 		end

@@ -21,7 +21,7 @@ var endtableCore = new endtable.Core({
 function runTestsAsync() {
 	specs = {
 		independant: [
-	    	'endtable-core',
+			'endtable-core',
 			'couch-connector',
 			'endtable-object'
 		]
@@ -44,7 +44,7 @@ function runTestsAsync() {
 		// We should wait for all asynchronous calls to finish before running the report.
 		setTimeout(function() {
 			JSpec.report()
-		}, 1000);
+		}, 2000);
 		
 		JSpec.run()
 	}

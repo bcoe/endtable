@@ -43,6 +43,7 @@ describe 'Endtable.Core'
 		end
 	
 		it 'should update an existing design with a new view'
+
 			endtableCore = new endtable.Core({
 				database: 'test'
 			});
@@ -50,21 +51,19 @@ describe 'Endtable.Core'
 			// Create the first view of the data.
 			endtableCore.loadDocument({
 				keys: ['age', 'name'],
-				type: 'person'
-			}, function() {
-				
+				type: 'update_view_test'
+			}, function(error, doc) {
+
 				// Create the second view of the data.
 				endtableCore.loadDocument({
 					keys: 'age',
-					type: 'person'
+					type: 'update_view_test'
 				}, function() {
 					
 					// Examine the design created.
-					endtableCore.loadDocument('_design/person', function(error, doc) {
-						
+					endtableCore.loadDocument('_design/update_view_test', function(error, doc) {
 						(typeof doc.views.by_age_name).should.equal('object');
 						(typeof doc.views.by_age).should.equal('object');
-						
 					});
 					
 				})
