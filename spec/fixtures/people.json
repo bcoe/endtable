@@ -32,5 +32,13 @@
         "age": 99,
         "name": "Change Test2",
         "type": "person"
+    },
+    
+    {
+        "_rev": "93939",
+        "age": 32,
+        "name": "Array Test",
+        "array": ["apple", "banana"],
+        "type": "person"
     }
 ]

@@ -57,6 +57,32 @@ describe 'Endtable.Object'
 			this.should.assert_later()
 		end
 	end
+	
+	describe 'save'
+		it 'should save an object when a new element is added to an array'
+			endtableCore = new endtable.Core({
+				database: 'test'
+			});	
+		
+			loadCallback = function(error, obj) {
+				obj.array[2] = 'orange';
+			}
+			
+			endtableObject = new endtable.Object({
+				engine: endtableCore
+			}).load({
+				keys: 'name',
+				type: 'person',
+				key: 'Array Test'
+			}, loadCallback);
+			
+			this.should.assert_later()
+		end
+		
+		it 'should save an object when a new element is added to an object'
+		
+		end
+	end
 
 	describe 'load'
 		it 'should populate an objects instance variables with fields from key/value store'
@@ -78,6 +104,24 @@ describe 'Endtable.Object'
 			}, assertCallback);
 			
 			this.should.assert_later()
+		end
+		
+		it 'should return an array of objects if a query would return multiple results'
+		
+		end
+		
+		it 'should allow the default constructor of the object generation function to be overridden'
+		
+		end
+	end
+	
+	describe 'delete'
+		it 'should let you delete a single document'
+		
+		end
+		
+		it 'should let you delete a range of objects'
+		
 		end
 	end
 	
