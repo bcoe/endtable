@@ -5,6 +5,9 @@ var fs = require('fs');
 var sys = require('sys');
 endtable = require('endtable');
 connector = require('../lib/endtable/couch-connector');
+TIMEOUT_INTERVAL = 1000; // What should timeouts for asych tasks default to.
+TOTAL_TEST_TIME = 3000; // We must wait a period after running tests for all
+						// the asynchronous tests to complete execution.
 
 var endtableCore = new endtable.Core({
 	port: 5984,
@@ -44,7 +47,7 @@ function runTestsAsync() {
 		// We should wait for all asynchronous calls to finish before running the report.
 		setTimeout(function() {
 			JSpec.report()
-		}, 2000);
+		}, TOTAL_TEST_TIME);
 		
 		JSpec.run()
 	}

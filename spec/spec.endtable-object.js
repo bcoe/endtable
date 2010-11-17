@@ -1,11 +1,60 @@
 describe 'Endtable.Object'
 	describe 'constructor'
 		it 'should save a new object created'
+			endtableCore = new endtable.Core({
+				database: 'test'
+			});	
 		
+			setTimeout(function() {
+				var person = {};
+				endtableObject = new endtable.Object({
+					engine: endtableCore
+				}).load({
+					keys: 'name',
+					type: 'person',
+					key: 'John Doe'
+				}, function(error, obj) {
+					person = obj;
+				});
+				
+				setTimeout(function() {
+					person.name.should.equal('John Doe')
+					person.age.should.equal(75)
+				}, TIMEOUT_INTERVAL);
+			}, TIMEOUT_INTERVAL);
+			
+			endtableObject = new endtable.Object({
+				engine: endtableCore,
+				type: 'person',
+				name: 'John Doe',
+				age: 75
+			});
+			
+			this.should.assert_later()
 		end
 		
 		it 'should re-save new objects when instance variables are added'
+			endtableObject = new endtable.Object({
+				engine: endtableCore,
+				type: 'person',
+				name: 'Bob Yewchuck',
+				age: 99
+			});
+			endtableObject.brain = 'big'
 			
+			setTimeout(function() {
+				endtableObject = new endtable.Object({
+					engine: endtableCore
+				}).load({
+					keys: 'name',
+					type: 'person',
+					key: 'Bob Yewchuck'
+				}, function(error, obj) {
+					obj.brain.should.equal('big')
+				});
+			}, 1000);
+			
+			this.should.assert_later()
 		end
 	end
 
@@ -43,11 +92,12 @@ describe 'Endtable.Object'
 			
 			setTimeout(function() {
 				obj._dirty.should.equal(true);
-			}, 350);
+			}, TIMEOUT_INTERVAL);
 		}
 		
 		endtableObject = new endtable.Object({
-			engine: endtableCore
+			engine: endtableCore,
+			saveRate: 50000
 		}).load({
 			keys: 'name',
 			type: 'person',
@@ -64,7 +114,7 @@ describe 'Endtable.Object'
 		
 		assertCallback = function(error, obj) {
 			obj._dirty.should.equal(false);
-			obj.name = 'Ben Coe'
+			obj.age = 55
 			obj._dirty.should.equal(true);
 		}
 		
@@ -73,7 +123,7 @@ describe 'Endtable.Object'
 		}).load({
 			keys: 'name',
 			type: 'person',
-			key: 'Mark Twain'
+			key: 'Change Test'
 		}, assertCallback);
 		
 		this.should.assert_later()
@@ -103,7 +153,7 @@ describe 'Endtable.Object'
 		
 		setTimeout(function() {
 			saveCalled.should.equal(true);
-		}, 350);
+		}, TIMEOUT_INTERVAL);
 		
 		this.should.assert_later()
 	end
@@ -122,7 +172,7 @@ describe 'Endtable.Object'
 		}).load({
 			keys: 'name',
 			type: 'person',
-			key: 'Christian'
+			key: 'Change Test2'
 		}, dirtyCallback);
 		
 		setTimeout(function() {
@@ -137,7 +187,7 @@ describe 'Endtable.Object'
 				type: 'person',
 				key: 'Brian Wilson'
 			}, loadCallback);
-		}, 350);
+		}, TIMEOUT_INTERVAL);
 		
 		this.should.assert_later()
 	end	

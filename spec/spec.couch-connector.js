@@ -173,7 +173,7 @@ describe 'CouchConnector'
 					(typeof doc.views.by_name_type_age).should.equal('object');
 					(typeof doc.views.by_type_name_age).should.equal('object');
 				});
-			}, 205);
+			}, TIMEOUT_INTERVAL);
 	
 			this.should.assert_later()
 		end

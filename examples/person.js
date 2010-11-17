@@ -21,6 +21,7 @@ function populateData() {
 		age: 27,
 		sex: 'male'
 	})
+	person.awesome = true;
 	
 	person = new endtable.Object({
 		engine: endtableCore,
