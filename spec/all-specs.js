@@ -3,17 +3,26 @@ require('./lib/jspec');
 
 var fs = require('fs');
 var sys = require('sys');
+
 endtable = require('endtable');
 connector = require('../lib/endtable/couch-connector');
-TIMEOUT_INTERVAL = 1000; // What should timeouts for asych tasks default to.
-TOTAL_TEST_TIME = 3000; // We must wait a period after running tests for all
+
+// Constants for tests.
+TIMEOUT_INTERVAL = 2000; // What should timeouts for asych tasks default to.
+TOTAL_TEST_TIME = 10000; // We must wait a period after running tests for all
 						// the asynchronous tests to complete execution.
+EXPECTED_HOST = 'localhost' // The host we expect the couch connector to talk to.
+LEGACY_VIEW = true; // Should we use the legacy couch views? PRE 0.9.0
+
+if (LEGACY_VIEW) {
+	var init = endtable.Engine.prototype.init;
+	endtable.Engine.prototype.init = function() {
+		init.apply(this, arguments);
+		this.connector.legacy = true;
+	};
+}
 
 var endtableEngine = new endtable.Engine({
-	port: 5984,
-	host: 'localhost',
-	user: '',
-	password: '',
 	database: 'test'
 });
 
@@ -70,7 +79,7 @@ function loadFixtures() {
 	for (var fixtureName in fixtures) {
 		if (fixtures.hasOwnProperty(fixtureName)) {
 			for (var i = 0, fixture; (fixture = fixtures[fixtureName][i]) != null; i++) {
-				endtableEngine.saveDocument({type: fixture.type, fields: fixture}, function() {
+				endtableEngine.saveDocument({type: fixture.type, fields: fixture}, function(error, doc) {
 					count++;
 					if (count == size) {
 						runTestsAsync();

@@ -3,7 +3,8 @@ var sys = require('sys');
 var endtable = require('endtable');
 
 var Engine = new endtable.Engine({
-	database: 'people_example'
+	database: 'people_example',
+	legacy: true
 });
 
 var Person = endtable.Object.extend({

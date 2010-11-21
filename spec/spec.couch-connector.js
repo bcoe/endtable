@@ -6,11 +6,8 @@ describe 'CouchConnector'
 			lastURL = ''
 			
 			c = new connector.connector({
-				port: 5984,
-				host: 'localhost',
-				user: '',
-				password: '',
-				database: 'test'
+				database: 'test',
+				legacy: LEGACY_VIEW
 			})
 			
 			c.connection = {
@@ -26,13 +23,16 @@ describe 'CouchConnector'
 		end
 	
 		it 'should generate a restful URL based on DB and Keys'
-		
 			c.loadDocument({
 				keys: ['name', 'age'],
 				type: 'person'
 			})
 			
-			lastURL.should.equal('/_view/person/by_name_age')
+			if (LEGACY_VIEW) {
+				lastURL.should.equal('/_view/person/by_name_age')
+			} else {
+				lastURL.should.equal('/_design/person/_view/by_name_age')
+			}
 		end
 
 		it 'should build a url with the get parameter descending'
@@ -42,7 +42,11 @@ describe 'CouchConnector'
 				descending: true
 			})
 
-			lastURL.should.equal('/_view/person/by_name_age?descending=true')
+			if (LEGACY_VIEW) {
+				lastURL.should.equal('/_view/person/by_name_age?descending=true')
+			} else {
+				lastURL.should.equal('/_design/person/_view/by_name_age?descending=true')
+			}
 		end
 		
 		it 'should build a URL with the get parameters descending and startkey'
@@ -63,17 +67,14 @@ describe 'CouchConnector'
 		it 'should create an exception if the requested view does not exist'
 
 			var c = new connector.connector({
-				port: 5984,
-				host: 'localhost',
-				user: '',
-				password: '',
-				database: 'test'
+				database: 'test',
+				legacy: LEGACY_VIEW
 			})
 
 			c.connect()
 
 			c.loadDocument({keys: ['name', 'age'], type: 'not_a_person'}, function(error, doc) {
-				error.error.should.match('not_found');
+				(error ? true : false).should.be_true();
 			});
 			
 			this.should.assert_later()
@@ -85,11 +86,8 @@ describe 'CouchConnector'
 			lastDocument = {}
 			
 			c = new connector.connector({
-				port: 5984,
-				host: 'localhost',
-				user: '',
-				password: '',
-				database: 'development'
+				database: 'development',
+				legacy: LEGACY_VIEW
 			})
 			
 			c.connection = {
@@ -144,14 +142,11 @@ describe 'CouchConnector'
 	
 	describe 'createView'
 		it 'when two createView calls are executed in a row it should add both views to a design'
-			c = new connector.connector({
-				port: 5984,
-				host: 'localhost',
-				user: '',
-				password: '',
+			endtableEngine = new endtable.Engine({
 				database: 'test'
 			});
-			c.connect();
+		
+			c = endtableEngine.connector
 			
 			c.createView({
 				keys: ['name', 'type', 'age'],
@@ -163,9 +158,6 @@ describe 'CouchConnector'
 				type: 'two_view_test'
 			})
 			
-			endtableEngine = new endtable.Engine({
-				database: 'test'
-			});
 			
 			// Examine the design created.
 			setTimeout(function() {

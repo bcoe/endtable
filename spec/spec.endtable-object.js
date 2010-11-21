@@ -52,7 +52,7 @@ describe 'Endtable.Object'
 				}, function(error, obj) {
 					obj.brain.should.equal('big')
 				});
-			}, 1000);
+			}, TIMEOUT_INTERVAL);
 			
 			this.should.assert_later()
 		end
@@ -66,7 +66,7 @@ describe 'Endtable.Object'
 		
 			var person = new endtable.Object({
 				engine: endtableEngine,
-				saveRate: 50000,
+				saveRate: 500000,
 				dependentArray: [],
 				type: 'person',
 				name: 'Ben',
@@ -88,8 +88,8 @@ describe 'Endtable.Object'
 			});	
 		
 			var person = new endtable.Object({
-				engine: endtableEngine,
-				saveRate: 50000,
+				engine: endtableEngine,//fixing.
+				saveRate: 500000,
 				dependentObject: {subobject: {a: 'hello'}},
 				type: 'person',
 				name: 'Ben',
@@ -133,7 +133,25 @@ describe 'Endtable.Object'
 		end
 		
 		it 'should return an array of objects if a query would return multiple results'
+			endtableEngine = new endtable.Engine({
+				database: 'test'
+			});	
 		
+			assertCallback = function(error, obj) {
+				(obj.length > 0).should.be_true()
+				obj[0].type.should.equal('person')
+			}
+			
+			endtableObject = new endtable.Object({
+				engine: endtableEngine
+			}).load({
+				keys: 'age',
+				type: 'person',
+				startkey: 20,
+				endkey: 40
+			}, assertCallback);
+			
+			this.should.assert_later()
 		end
 		
 		it 'should allow the default constructor of the object generation function to be overridden'
@@ -167,7 +185,7 @@ describe 'Endtable.Object'
 		
 		endtableObject = new endtable.Object({
 			engine: endtableEngine,
-			saveRate: 50000
+			saveRate: 500000
 		}).load({
 			keys: 'name',
 			type: 'person',

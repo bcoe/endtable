@@ -3,7 +3,7 @@ describe 'Endtable.Engine'
 	describe 'init'	
 		it 'should extend base object with defaults'
 			endtableEngine = new endtable.Engine()
-			endtableEngine.host.should.equal('localhost')
+			endtableEngine.host.should.equal(EXPECTED_HOST)
 			endtableEngine.database.should.equal('development')
 		end
 		
