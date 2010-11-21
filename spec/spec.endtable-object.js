@@ -59,28 +59,50 @@ describe 'Endtable.Object'
 	end
 	
 	describe 'save'
-		it 'should save an object when a new element is added to an array'
+		it 'should save an object when a new element is added to a dependent array'
 			endtableCore = new endtable.Core({
 				database: 'test'
 			});	
 		
-			loadCallback = function(error, obj) {
-				obj.array[2] = 'orange';
-			}
-			
-			endtableObject = new endtable.Object({
-				engine: endtableCore
-			}).load({
-				keys: 'name',
+			var person = new endtable.Object({
+				engine: endtableCore,
+				saveRate: 50000,
+				dependentArray: [],
 				type: 'person',
-				key: 'Array Test'
-			}, loadCallback);
+				name: 'Ben',
+				age: 27
+			});
+			person._dirty = false;
+			person.dependentArray.push('hello');
+			
+			setTimeout(function() {
+				person._dirty.should.equal(true);
+			}, TIMEOUT_INTERVAL);
 			
 			this.should.assert_later()
 		end
 		
-		it 'should save an object when a new element is added to an object'
+		it 'should save an object when a new element is added to a dependent object'
+			endtableCore = new endtable.Core({
+				database: 'test'
+			});	
 		
+			var person = new endtable.Object({
+				engine: endtableCore,
+				saveRate: 50000,
+				dependentObject: {subobject: {a: 'hello'}},
+				type: 'person',
+				name: 'Ben',
+				age: 27
+			});
+			person._dirty = false;
+			person.dependentObject.subobject.foobar = 'word';
+			
+			setTimeout(function() {
+				person._dirty.should.equal(true);
+			}, TIMEOUT_INTERVAL);
+			
+			this.should.assert_later()
 		end
 	end
 
