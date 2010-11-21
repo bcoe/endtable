@@ -80,7 +80,7 @@ function performQuery() {
 (function resetDatabase(callback) {
 	sys.puts('Resetting database.'); 
 	endtableCore.connector.deleteDatabase(function() {
-		endtableCore.connector.createDatabase(function() {
+		endtableCore.connector.createDatabase(function(error, doc) {
 			callback();
 		});
 	});
