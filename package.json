@@ -2,16 +2,16 @@
     "name": "endtable",
     "directories" : { "lib" : "./lib" },
     "main" : "./lib/endtable",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "author": "Ben Coe <bencoe@gmail.com>",
     "dependencies": {
         "connect": "=0.2.4",
         "request": "=0.10.0"
     },
     "engines" : ["node"],
-    "description" : "A ridiculously simple ORM built on top of CouchDB.",
+    "description" : "An Object Mapper built on top of CouchDB.",
     "keywords" : ["couch", "couchdb", "orm"],
-    "repository" {
+    "repository": {
         "type": "git",
         "url": "https://github.com/bcoe/endtable.git"
     }
