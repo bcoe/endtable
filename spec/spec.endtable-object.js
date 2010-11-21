@@ -104,6 +104,10 @@ describe 'Endtable.Object'
 			
 			this.should.assert_later()
 		end
+		
+		it 'should save an object when a parameter on an object in a dependant array is modified'
+		
+		end
 	end
 
 	describe 'load'

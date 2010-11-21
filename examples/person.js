@@ -5,25 +5,48 @@ endtableCore = new endtable.Core({
 	database: 'people_example'
 });
 
+var Person = endtable.Object.extend({
+	init: function(params) {
+		this._super(params);
+	},
+	
+	sayName: function() {
+		sys.puts('Hello, my name is ' + this.name + '!');
+	}
+});
+
 function populateData() {
-	var person = new endtable.Object({
+	sys.puts('Populating fake data.');
+	
+	var person = new Person({
 		engine: endtableCore,
 		type: 'person',
 		name: 'Christian',
 		age: 28,
 		sex: 'male'
+	}, function(error, obj) {
+		sys.puts('Created person.')
 	})
 
-	person = new endtable.Object({
+	var ben = new Person({
 		engine: endtableCore,
 		type: 'person',
 		name: 'Benjamin Coe',
 		age: 27,
-		sex: 'male'
+		sex: 'male',
+		interests: ['climbing']
 	})
-	person.awesome = true;
 	
-	person = new endtable.Object({
+	setTimeout(function() {
+		ben.awesome = true;
+	}, 250);
+	
+	setTimeout(function() {
+		ben.interests.push('programming');
+		ben.sayName();
+	}, 500);
+	
+	person = new Person({
 		engine: endtableCore,
 		type: 'person',
 		name: 'Sally Johnson',
@@ -31,7 +54,7 @@ function populateData() {
 		sex: 'female'
 	})
 	
-	person = new endtable.Object({
+	person = new Person({
 		engine: endtableCore,
 		type: 'person',
 		name: 'JBoss',
@@ -40,7 +63,9 @@ function populateData() {
 	})	
 }
 
-function createViews() {
+function performQuery() {
+	sys.puts('Performing query.');
+	
 	endtableCore.loadDocument({
 		keys: ['name', 'age'],
 		type: 'person'
@@ -53,14 +78,14 @@ function createViews() {
 }
 
 (function resetDatabase(callback) {
+	sys.puts('Resetting database.'); 
 	endtableCore.connector.deleteDatabase(function() {
 		endtableCore.connector.createDatabase(function() {
 			callback();
 		});
 	});
 })(function() {
-	createViews();
 	populateData();
+	performQuery();
+	sys.puts('Running... Hit CTRL-C To Exit.');
 });
-
-sys.puts('Running... Hit CTRL-C To Exit.');
