@@ -12,7 +12,7 @@ TIMEOUT_INTERVAL = 2000; // What should timeouts for asych tasks default to.
 TOTAL_TEST_TIME = 10000; // We must wait a period after running tests for all
 						// the asynchronous tests to complete execution.
 EXPECTED_HOST = 'localhost' // The host we expect the couch connector to talk to.
-LEGACY_VIEW = true; // Should we use the legacy couch views? PRE 0.9.0
+LEGACY_VIEW = false; // Should we use the legacy couch views? PRE 0.9.0
 
 if (LEGACY_VIEW) {
 	var init = endtable.Engine.prototype.init;
