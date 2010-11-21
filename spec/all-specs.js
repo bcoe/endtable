@@ -9,7 +9,7 @@ TIMEOUT_INTERVAL = 1000; // What should timeouts for asych tasks default to.
 TOTAL_TEST_TIME = 3000; // We must wait a period after running tests for all
 						// the asynchronous tests to complete execution.
 
-var endtableCore = new endtable.Core({
+var endtableEngine = new endtable.Engine({
 	port: 5984,
 	host: 'localhost',
 	user: '',
@@ -24,7 +24,7 @@ var endtableCore = new endtable.Core({
 function runTestsAsync() {
 	specs = {
 		independant: [
-			'endtable-core',
+			'endtable-engine',
 			'couch-connector',
 			'endtable-object'
 		]
@@ -70,7 +70,7 @@ function loadFixtures() {
 	for (var fixtureName in fixtures) {
 		if (fixtures.hasOwnProperty(fixtureName)) {
 			for (var i = 0, fixture; (fixture = fixtures[fixtureName][i]) != null; i++) {
-				endtableCore.saveDocument({type: fixture.type, fields: fixture}, function() {
+				endtableEngine.saveDocument({type: fixture.type, fields: fixture}, function() {
 					count++;
 					if (count == size) {
 						runTestsAsync();
@@ -82,8 +82,8 @@ function loadFixtures() {
 }
 
 function resetDBAndRunTests() {
-	endtableCore.connector.deleteDatabase(function() {
-		endtableCore.connector.createDatabase(function() {
+	endtableEngine.connector.deleteDatabase(function() {
+		endtableEngine.connector.createDatabase(function() {
 			loadFixtures();
 		});
 	});

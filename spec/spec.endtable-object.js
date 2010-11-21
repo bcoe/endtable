@@ -1,14 +1,14 @@
 describe 'Endtable.Object'
 	describe 'constructor'
 		it 'should save a new object created'
-			endtableCore = new endtable.Core({
+			endtableEngine = new endtable.Engine({
 				database: 'test'
 			});	
 		
 			setTimeout(function() {
 				var person = {};
 				endtableObject = new endtable.Object({
-					engine: endtableCore
+					engine: endtableEngine
 				}).load({
 					keys: 'name',
 					type: 'person',
@@ -24,7 +24,7 @@ describe 'Endtable.Object'
 			}, TIMEOUT_INTERVAL);
 			
 			endtableObject = new endtable.Object({
-				engine: endtableCore,
+				engine: endtableEngine,
 				type: 'person',
 				name: 'John Doe',
 				age: 75
@@ -35,7 +35,7 @@ describe 'Endtable.Object'
 		
 		it 'should re-save new objects when instance variables are added'
 			endtableObject = new endtable.Object({
-				engine: endtableCore,
+				engine: endtableEngine,
 				type: 'person',
 				name: 'Bob Yewchuck',
 				age: 99
@@ -44,7 +44,7 @@ describe 'Endtable.Object'
 			
 			setTimeout(function() {
 				endtableObject = new endtable.Object({
-					engine: endtableCore
+					engine: endtableEngine
 				}).load({
 					keys: 'name',
 					type: 'person',
@@ -60,12 +60,12 @@ describe 'Endtable.Object'
 	
 	describe 'save'
 		it 'should save an object when a new element is added to a dependent array'
-			endtableCore = new endtable.Core({
+			endtableEngine = new endtable.Engine({
 				database: 'test'
 			});	
 		
 			var person = new endtable.Object({
-				engine: endtableCore,
+				engine: endtableEngine,
 				saveRate: 50000,
 				dependentArray: [],
 				type: 'person',
@@ -83,12 +83,12 @@ describe 'Endtable.Object'
 		end
 		
 		it 'should save an object when a new element is added to a dependent object'
-			endtableCore = new endtable.Core({
+			endtableEngine = new endtable.Engine({
 				database: 'test'
 			});	
 		
 			var person = new endtable.Object({
-				engine: endtableCore,
+				engine: endtableEngine,
 				saveRate: 50000,
 				dependentObject: {subobject: {a: 'hello'}},
 				type: 'person',
@@ -112,7 +112,7 @@ describe 'Endtable.Object'
 
 	describe 'load'
 		it 'should populate an objects instance variables with fields from key/value store'
-			endtableCore = new endtable.Core({
+			endtableEngine = new endtable.Engine({
 				database: 'test'
 			});	
 		
@@ -122,7 +122,7 @@ describe 'Endtable.Object'
 			}
 			
 			endtableObject = new endtable.Object({
-				engine: endtableCore
+				engine: endtableEngine
 			}).load({
 				keys: 'name',
 				type: 'person',
@@ -152,7 +152,7 @@ describe 'Endtable.Object'
 	end
 	
 	it 'should set a dirty flag on the object when an instance variable is added'
-		endtableCore = new endtable.Core({
+		endtableEngine = new endtable.Engine({
 			database: 'test'
 		});
 		
@@ -166,7 +166,7 @@ describe 'Endtable.Object'
 		}
 		
 		endtableObject = new endtable.Object({
-			engine: endtableCore,
+			engine: endtableEngine,
 			saveRate: 50000
 		}).load({
 			keys: 'name',
@@ -178,7 +178,7 @@ describe 'Endtable.Object'
 	end
 	
 	it 'should set the dirty flag on the object when an instance variable is updated'
-		endtableCore = new endtable.Core({
+		endtableEngine = new endtable.Engine({
 			database: 'test'
 		});
 		
@@ -189,7 +189,7 @@ describe 'Endtable.Object'
 		}
 		
 		endtableObject = new endtable.Object({
-			engine: endtableCore
+			engine: endtableEngine
 		}).load({
 			keys: 'name',
 			type: 'person',
@@ -204,17 +204,17 @@ describe 'Endtable.Object'
 			obj.name = 'Brian Wilson';
 		}
 		
-		endtableCore = new endtable.Core({
+		endtableEngine = new endtable.Engine({
 			database: 'test'
 		});
 		
 		var saveCalled = false;
-		endtableCore.connector.saveDocument = function(params, callback) {
+		endtableEngine.connector.saveDocument = function(params, callback) {
 			saveCalled = true;
 		}
 		
 		endtableObject = new endtable.Object({
-			engine: endtableCore
+			engine: endtableEngine
 		}).load({
 			keys: 'name',
 			type: 'person',
@@ -233,12 +233,12 @@ describe 'Endtable.Object'
 			obj.name = 'Brian Wilson';
 		}
 		
-		endtableCore = new endtable.Core({
+		endtableEngine = new endtable.Engine({
 			database: 'test'
 		});
 		
 		endtableObject = new endtable.Object({
-			engine: endtableCore
+			engine: endtableEngine
 		}).load({
 			keys: 'name',
 			type: 'person',
@@ -251,7 +251,7 @@ describe 'Endtable.Object'
 			}
 			
 			endtableObject = new endtable.Object({
-				engine: endtableCore
+				engine: endtableEngine
 			}).load({
 				keys: 'name',
 				type: 'person',

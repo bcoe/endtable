@@ -1,7 +1,8 @@
 var sys = require('sys');
 
 var endtable = require('endtable');
-endtableCore = new endtable.Core({
+
+var Engine = new endtable.Engine({
 	database: 'people_example'
 });
 
@@ -19,7 +20,7 @@ function populateData() {
 	sys.puts('Populating fake data.');
 	
 	var person = new Person({
-		engine: endtableCore,
+		engine: Engine,
 		type: 'person',
 		name: 'Christian',
 		age: 28,
@@ -29,7 +30,7 @@ function populateData() {
 	})
 
 	var ben = new Person({
-		engine: endtableCore,
+		engine: Engine,
 		type: 'person',
 		name: 'Benjamin Coe',
 		age: 27,
@@ -47,7 +48,7 @@ function populateData() {
 	}, 500);
 	
 	person = new Person({
-		engine: endtableCore,
+		engine: Engine,
 		type: 'person',
 		name: 'Sally Johnson',
 		age: 24,
@@ -55,7 +56,7 @@ function populateData() {
 	})
 	
 	person = new Person({
-		engine: endtableCore,
+		engine: Engine,
 		type: 'person',
 		name: 'JBoss',
 		age: 30,
@@ -66,12 +67,12 @@ function populateData() {
 function performQuery() {
 	sys.puts('Performing query.');
 	
-	endtableCore.loadDocument({
+	Engine.loadDocument({
 		keys: ['name', 'age'],
 		type: 'person'
 	})
 	
-	endtableCore.loadDocument({
+	Engine.loadDocument({
 		keys: ['age'],
 		type: 'person'
 	});
@@ -79,8 +80,8 @@ function performQuery() {
 
 (function resetDatabase(callback) {
 	sys.puts('Resetting database.'); 
-	endtableCore.connector.deleteDatabase(function() {
-		endtableCore.connector.createDatabase(function(error, doc) {
+	Engine.connector.deleteDatabase(function() {
+		Engine.connector.createDatabase(function(error, doc) {
 			callback();
 		});
 	});

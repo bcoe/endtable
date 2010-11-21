@@ -1,0 +1,3 @@
+describe 'ErrorHandler'
+
+end

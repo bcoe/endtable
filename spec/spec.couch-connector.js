@@ -163,13 +163,13 @@ describe 'CouchConnector'
 				type: 'two_view_test'
 			})
 			
-			endtableCore = new endtable.Core({
+			endtableEngine = new endtable.Engine({
 				database: 'test'
 			});
 			
 			// Examine the design created.
 			setTimeout(function() {
-				endtableCore.loadDocument('_design/two_view_test', function(error, doc) {
+				endtableEngine.loadDocument('_design/two_view_test', function(error, doc) {
 					(typeof doc.views.by_name_type_age).should.equal('object');
 					(typeof doc.views.by_type_name_age).should.equal('object');
 				});

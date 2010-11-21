@@ -1,19 +1,19 @@
-describe 'Endtable.Core'
+describe 'Endtable.Engine'
 
 	describe 'init'	
 		it 'should extend base object with defaults'
-			endtableCore = new endtable.Core()
-			endtableCore.host.should.equal('localhost')
-			endtableCore.database.should.equal('development')
+			endtableEngine = new endtable.Engine()
+			endtableEngine.host.should.equal('localhost')
+			endtableEngine.database.should.equal('development')
 		end
 		
 		it 'should overwrite defaults with params'
-			endtableCore = new endtable.Core({
+			endtableEngine = new endtable.Engine({
 				host: '127.0.0.1',
 				database: 'production'
 			})
-			endtableCore.host.should.equal('127.0.0.1')
-			endtableCore.database.should.equal('production')
+			endtableEngine.host.should.equal('127.0.0.1')
+			endtableEngine.database.should.equal('production')
 		end
 	end
 	
@@ -21,8 +21,8 @@ describe 'Endtable.Core'
 		
 		it 'should create a view if one does not exist'
 			createViewCalled = false
-			endtableCore = new endtable.Core()
-			endtableCore.connector = {
+			endtableEngine = new endtable.Engine()
+			endtableEngine.connector = {
 				loadDocument: function(params, callback) {
 					callback({
 						error: 'not_found'
@@ -33,7 +33,7 @@ describe 'Endtable.Core'
 				}
 			}
 		
-			endtableCore.loadDocument({
+			endtableEngine.loadDocument({
 				keys: ['name', 'age'],
 				type: 'person',
 				descending: true
@@ -44,24 +44,24 @@ describe 'Endtable.Core'
 	
 		it 'should update an existing design with a new view'
 
-			endtableCore = new endtable.Core({
+			endtableEngine = new endtable.Engine({
 				database: 'test'
 			});
 			
 			// Create the first view of the data.
-			endtableCore.loadDocument({
+			endtableEngine.loadDocument({
 				keys: ['age', 'name'],
 				type: 'update_view_test'
 			}, function(error, doc) {
 
 				// Create the second view of the data.
-				endtableCore.loadDocument({
+				endtableEngine.loadDocument({
 					keys: 'age',
 					type: 'update_view_test'
 				}, function() {
 					
 					// Examine the design created.
-					endtableCore.loadDocument('_design/update_view_test', function(error, doc) {
+					endtableEngine.loadDocument('_design/update_view_test', function(error, doc) {
 						(typeof doc.views.by_age_name).should.equal('object');
 						(typeof doc.views.by_age).should.equal('object');
 					});
@@ -76,18 +76,18 @@ describe 'Endtable.Core'
 	
 	describe 'saveDocument'
 		it 'should save a document to couch with the appropriate fields.'
-			endtableCore = new endtable.Core({
+			endtableEngine = new endtable.Engine({
 				database: 'test'
 			});
 			
-			endtableCore.saveDocument({
+			endtableEngine.saveDocument({
 				type: 'person',
 				fields: {
 					'name': 'Benjamin Coe',
 					'age': 27
 				}
 			}, function(error, doc) {
-				endtableCore.loadDocument(doc.id, function(error, doc) {
+				endtableEngine.loadDocument(doc.id, function(error, doc) {
 					doc.name.should.equal('Benjamin Coe');
 					doc.age.should.equal(27);
 				});
