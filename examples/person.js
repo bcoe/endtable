@@ -2,27 +2,27 @@ var sys = require('sys');
 
 var endtable = require('endtable');
 
-var Engine = new endtable.Engine({
+var engine = new endtable.Engine({
 	database: 'people_example',
 	legacy: true
 });
 
-var Person = endtable.Object.extend({
-	init: function(params) {
-		this._super(params);
+var Person = endtable.Object.extend(
+	{
+		sayName: function() {
+			sys.puts('Hello, my name is ' + this.name + '!');
+		}
 	},
-	
-	sayName: function() {
-		sys.puts('Hello, my name is ' + this.name + '!');
+	{
+		engine: engine,
+		type: 'person'
 	}
-});
+);
 
 function populateData() {
 	sys.puts('Populating fake data.');
 	
 	var person = new Person({
-		engine: Engine,
-		type: 'person',
 		name: 'Christian',
 		age: 28,
 		sex: 'male'
@@ -31,8 +31,6 @@ function populateData() {
 	})
 
 	var ben = new Person({
-		engine: Engine,
-		type: 'person',
 		name: 'Benjamin Coe',
 		age: 27,
 		sex: 'male',
@@ -45,35 +43,44 @@ function populateData() {
 	
 	setTimeout(function() {
 		ben.interests.push('programming');
-		ben.sayName();
 	}, 500);
 	
 	person = new Person({
-		engine: Engine,
-		type: 'person',
 		name: 'Sally Johnson',
 		age: 24,
 		sex: 'female'
 	})
 	
 	person = new Person({
-		engine: Engine,
-		type: 'person',
 		name: 'JBoss',
 		age: 30,
 		sex: 'male'
-	})	
+	})
+		
+	setTimeout(function() {
+		
+		new Person().load({
+			keys: 'age',
+			startkey: 28,
+			endkey: 50
+		}, function(error, obj) {
+			for (var i = 0; i < obj.length; i++) {
+				obj[i].sayName();
+			}
+		})
+		
+	}, 1000);
 }
 
 function performQuery() {
 	sys.puts('Performing query.');
 	
-	Engine.loadDocument({
+	engine.loadDocument({
 		keys: ['name', 'age'],
 		type: 'person'
 	})
 	
-	Engine.loadDocument({
+	engine.loadDocument({
 		keys: ['age'],
 		type: 'person'
 	});
@@ -81,8 +88,8 @@ function performQuery() {
 
 (function resetDatabase(callback) {
 	sys.puts('Resetting database.'); 
-	Engine.connector.deleteDatabase(function() {
-		Engine.connector.createDatabase(function(error, doc) {
+	engine.connector.deleteDatabase(function() {
+		engine.connector.createDatabase(function(error, doc) {
 			callback();
 		});
 	});

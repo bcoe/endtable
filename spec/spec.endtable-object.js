@@ -154,18 +154,43 @@ describe 'Endtable.Object'
 			this.should.assert_later()
 		end
 		
-		it 'should allow the default constructor of the object generation function to be overridden'
+		it 'should return an instance of an extending endtable class if an endtable object is sub-classed'
 		
 		end
 	end
 	
 	describe 'delete'
 		it 'should let you delete a single document'
+			assertCallback = function(error, obj) {
+				obj.length.should.equal(0)
+			}
 		
-		end
-		
-		it 'should let you delete a range of objects'
-		
+			endtableEngine = new endtable.Engine({
+				database: 'test'
+			});
+			
+			new endtable.Object({
+				engine: endtableEngine
+			}).load({
+				keys: 'name',
+				type: 'person',
+				key: 'Delete Test'
+			}, function(error, obj) {
+				obj.name.should.equal('Delete Test');
+				obj.delete(function() {
+					
+					new endtable.Object({
+						engine: endtableEngine
+					}).load({
+						keys: 'name',
+						type: 'person',
+						key: 'Delete Test'
+					}, assertCallback);
+					
+				});
+			});
+			
+			this.should.assert_later()
 		end
 	end
 	
