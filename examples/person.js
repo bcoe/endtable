@@ -1,10 +1,11 @@
 var sys = require('sys');
+sys.puts('Running... Hit CTRL-C To Exit.');
 
 var endtable = require('endtable');
 
 var engine = new endtable.Engine({
 	database: 'people_example',
-	legacy: true
+	legacy: false
 });
 
 var Person = endtable.Object.extend(
@@ -56,8 +57,13 @@ function populateData() {
 		age: 30,
 		sex: 'male'
 	})
+}
+
+function performQuery() {
 		
 	setTimeout(function() {
+		
+		sys.puts('Performing query.');
 		
 		new Person().load({
 			keys: 'age',
@@ -72,20 +78,6 @@ function populateData() {
 	}, 1000);
 }
 
-function performQuery() {
-	sys.puts('Performing query.');
-	
-	engine.loadDocument({
-		keys: ['name', 'age'],
-		type: 'person'
-	})
-	
-	engine.loadDocument({
-		keys: ['age'],
-		type: 'person'
-	});
-}
-
 (function resetDatabase(callback) {
 	sys.puts('Resetting database.'); 
 	engine.connector.deleteDatabase(function() {
@@ -96,5 +88,4 @@ function performQuery() {
 })(function() {
 	populateData();
 	performQuery();
-	sys.puts('Running... Hit CTRL-C To Exit.');
 });
