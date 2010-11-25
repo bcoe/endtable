@@ -6,6 +6,7 @@ h2. Known Issues
 
 * [FIXED] When running all specs periodic failures seem to be occurring. I think this is related to asynchronous tests and timing issues, the problem should however be investigated.
 ** I seem to have narrowed the issue down to being caused by automatic view creation when two views are created simultaneously.
-* Periodically a document appears to fail to load, causing a spec to fail.
-** This seems to occur frequently with the assertion against the name 'Mark Twain.
-** I have not had specs fail in quite some time.
+* [FIXED] Periodically a document appears to fail to load, causing a spec to fail.
+** Synchronously saving documents seems to have fixed this problem.
+* Some IO operations do not fail gracefully, I would like to find a way to intercept these operations.
+** Currently connecting to CouchDB with an invalid host or port will cause it to explode.

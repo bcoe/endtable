@@ -112,7 +112,7 @@ describe 'Endtable.Object'
 
 	describe 'load'
 		it 'should populate an objects instance variables with fields from key/value store'
-			endtableEngine = new endtable.Engine({
+			var endtableEngine = new endtable.Engine({
 				database: 'test'
 			});	
 		
@@ -133,7 +133,7 @@ describe 'Endtable.Object'
 		end
 		
 		it 'should return an array of objects if a query would return multiple results'
-			endtableEngine = new endtable.Engine({
+			var endtableEngine = new endtable.Engine({
 				database: 'test'
 			});	
 		
@@ -165,7 +165,7 @@ describe 'Endtable.Object'
 				obj.length.should.equal(0)
 			}
 		
-			endtableEngine = new endtable.Engine({
+			var endtableEngine = new endtable.Engine({
 				database: 'test'
 			});
 			
@@ -177,17 +177,22 @@ describe 'Endtable.Object'
 				key: 'Delete Test'
 			}, function(error, obj) {
 				obj.name.should.equal('Delete Test');
-				obj.delete(function() {
+
+				if (obj.delete) {
 					
-					new endtable.Object({
-						engine: endtableEngine
-					}).load({
-						keys: 'name',
-						type: 'person',
-						key: 'Delete Test'
-					}, assertCallback);
+					obj.delete(function() {
 					
-				});
+						new endtable.Object({
+							engine: endtableEngine
+						}).load({
+							keys: 'name',
+							type: 'person',
+							key: 'Delete Test'
+						}, assertCallback);
+					
+					});
+					
+				}
 			});
 			
 			this.should.assert_later()
@@ -195,7 +200,7 @@ describe 'Endtable.Object'
 	end
 	
 	it 'should set a dirty flag on the object when an instance variable is added'
-		endtableEngine = new endtable.Engine({
+		var endtableEngine = new endtable.Engine({
 			database: 'test'
 		});
 		
@@ -221,7 +226,7 @@ describe 'Endtable.Object'
 	end
 	
 	it 'should set the dirty flag on the object when an instance variable is updated'
-		endtableEngine = new endtable.Engine({
+		var endtableEngine = new endtable.Engine({
 			database: 'test'
 		});
 		
@@ -247,7 +252,7 @@ describe 'Endtable.Object'
 			obj.name = 'Brian Wilson';
 		}
 		
-		endtableEngine = new endtable.Engine({
+		var endtableEngine = new endtable.Engine({
 			database: 'test'
 		});
 		
@@ -276,7 +281,7 @@ describe 'Endtable.Object'
 			obj.name = 'Brian Wilson';
 		}
 		
-		endtableEngine = new endtable.Engine({
+		var endtableEngine = new endtable.Engine({
 			database: 'test'
 		});
 		

@@ -5,7 +5,11 @@ var endtable = require('endtable');
 
 var engine = new endtable.Engine({
 	database: 'people_example',
-	legacy: false
+	legacy: false,
+	errorCallback: function(error) {
+		// When views aren't found they raise a warning.
+		sys.puts(JSON.stringify(error));
+	}
 });
 
 var Person = endtable.Object.extend(
@@ -64,7 +68,7 @@ function performQuery() {
 	setTimeout(function() {
 		
 		sys.puts('Performing query.');
-		
+
 		new Person().load({
 			keys: 'age',
 			startkey: 28,
