@@ -5,7 +5,10 @@ var endtable = require('endtable');
 
 var engine = new endtable.Engine({
 	database: 'people_example',
-	legacy: false,
+	legacy: true,
+	host: 'localhost',
+	user: '',
+	password: '',
 	errorCallback: function(error) {
 		// When views aren't found they raise a warning.
 		sys.puts(JSON.stringify(error));

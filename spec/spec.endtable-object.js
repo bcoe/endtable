@@ -14,7 +14,7 @@ describe 'Endtable.Object'
 					type: 'person',
 					key: 'John Doe'
 				}, function(error, obj) {
-					person = obj;
+					person = obj[0];
 				});
 				
 				setTimeout(function() {
@@ -50,7 +50,7 @@ describe 'Endtable.Object'
 					type: 'person',
 					key: 'Bob Yewchuck'
 				}, function(error, obj) {
-					obj.brain.should.equal('big')
+					obj[0].brain.should.equal('big')
 				});
 			}, TIMEOUT_INTERVAL);
 			
@@ -182,8 +182,8 @@ describe 'Endtable.Object'
 			});	
 		
 			assertCallback = function(error, obj) {
-				obj.name.should.equal('Mark Twain')
-				obj.age.should.equal(150)
+				obj[0].name.should.equal('Mark Twain')
+				obj[0].age.should.equal(150)
 			}
 			
 			endtableObject = new endtable.Object({
@@ -220,28 +220,37 @@ describe 'Endtable.Object'
 		end
 		
 		it 'should return an instance of an extending endtable class if an endtable object is sub-classed'
-		/*	var endtableEngine = new endtable.Engine({
+			var extended = false;
+		
+			var endtableEngine = new endtable.Engine({
 				database: 'test'
 			});	
 			
 			var Person = endtable.Object.extend(
 				{
-					testMe: function() { return true }
+					testExtended: function() { extended = true }
 				},
 				{
-					engine: engine,
+					engine: endtableEngine,
 					type: 'person'
 				}
 			);
 			
-			endtableObject = new endtable.Object({
+			endtableObject = new Person({
 				engine: endtableEngine
 			}).load({
 				keys: 'age',
-				type: 'person',
 				startkey: 20,
 				endkey: 40
-			}, assertCallback);*/
+			}, function(error, people) {
+				people[0].testExtended()
+			});
+			
+			setTimeout(function() {
+				extended.should.equal(true);
+			}, TIMEOUT_INTERVAL);
+			
+			this.should.assert_later();
 		end
 	end
 	
@@ -262,11 +271,11 @@ describe 'Endtable.Object'
 				type: 'person',
 				key: 'Delete Test'
 			}, function(error, obj) {
-				obj.name.should.equal('Delete Test');
+				obj[0].name.should.equal('Delete Test');
 
-				if (obj.delete) {
+				if (obj[0].delete) {
 					
-					obj.delete(function() {
+					obj[0].delete(function() {
 					
 						new endtable.Object({
 							engine: endtableEngine
@@ -291,11 +300,11 @@ describe 'Endtable.Object'
 		});
 		
 		assertCallback = function(error, obj) {
-			obj._dirty.should.equal(false);
-			obj.newKey = ['apple', 'banana'];
+			obj[0]._dirty.should.equal(false);
+			obj[0].newKey = ['apple', 'banana'];
 			
 			setTimeout(function() {
-				obj._dirty.should.equal(true);
+				obj[0]._dirty.should.equal(true);
 			}, TIMEOUT_INTERVAL);
 		}
 		
@@ -317,9 +326,9 @@ describe 'Endtable.Object'
 		});
 		
 		assertCallback = function(error, obj) {
-			obj._dirty.should.equal(false);
-			obj.age = 55
-			obj._dirty.should.equal(true);
+			obj[0]._dirty.should.equal(false);
+			obj[0].age = 55
+			obj[0]._dirty.should.equal(true);
 		}
 		
 		endtableObject = new endtable.Object({
@@ -335,7 +344,7 @@ describe 'Endtable.Object'
 	
 	it 'should automatically persist an object to couch if it has been dirtied'
 		var dirtyCallback = function(error, obj) {
-			obj.name = 'Brian Wilson';
+			obj[0].name = 'Brian Wilson';
 		}
 		
 		var endtableEngine = new endtable.Engine({
@@ -364,7 +373,7 @@ describe 'Endtable.Object'
 	
 	it 'should actually save the values back to couch when an object is dirtied'
 		var dirtyCallback = function(error, obj) {
-			obj.name = 'Brian Wilson';
+			obj[0].name = 'Brian Wilson';
 		}
 		
 		var endtableEngine = new endtable.Engine({
@@ -381,7 +390,7 @@ describe 'Endtable.Object'
 		
 		setTimeout(function() {
 			var loadCallback = function(error, obj) {
-				obj.name.should.equal('Brian Wilson');
+				obj[0].name.should.equal('Brian Wilson');
 			}
 			
 			endtableObject = new endtable.Object({
