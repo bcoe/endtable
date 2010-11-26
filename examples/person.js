@@ -5,7 +5,7 @@ var endtable = require('endtable');
 
 var engine = new endtable.Engine({
 	database: 'people_example',
-	legacy: true,
+	legacy: false,
 	host: 'localhost',
 	user: '',
 	password: '',
