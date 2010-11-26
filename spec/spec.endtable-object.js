@@ -220,7 +220,28 @@ describe 'Endtable.Object'
 		end
 		
 		it 'should return an instance of an extending endtable class if an endtable object is sub-classed'
-		
+		/*	var endtableEngine = new endtable.Engine({
+				database: 'test'
+			});	
+			
+			var Person = endtable.Object.extend(
+				{
+					testMe: function() { return true }
+				},
+				{
+					engine: engine,
+					type: 'person'
+				}
+			);
+			
+			endtableObject = new endtable.Object({
+				engine: endtableEngine
+			}).load({
+				keys: 'age',
+				type: 'person',
+				startkey: 20,
+				endkey: 40
+			}, assertCallback);*/
 		end
 	end
 	
