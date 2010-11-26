@@ -15,6 +15,10 @@ describe 'Endtable.Engine'
 			endtableEngine.host.should.equal('127.0.0.1')
 			endtableEngine.database.should.equal('production')
 		end
+		
+		it 'should not fail when a connection is attempted to a server that does not exist'
+		
+		end
 	end
 	
 	describe 'loadDocument'

@@ -106,7 +106,72 @@ describe 'Endtable.Object'
 		end
 		
 		it 'should save an object when a parameter on an object in a dependant array is modified'
+			var endtableEngine = new endtable.Engine({
+				database: 'test'
+			});	
 		
+			var person = new endtable.Object({
+				engine: endtableEngine,//fixing.
+				saveRate: 500000,
+				dependentArray: [{should_save_an_object: 'hello'}],
+				type: 'person',
+				name: 'Ben',
+				age: 27
+			});
+			person._dirty = false;
+			person.dependentArray[0].a = 'goodbye';
+			
+			setTimeout(function() {
+				person._dirty.should.equal(true);
+			}, TIMEOUT_INTERVAL);
+			
+			this.should.assert_later()
+		end
+		
+		it 'should save an object when an item is added to an array in an array'
+			var endtableEngine = new endtable.Engine({
+				database: 'test'
+			});	
+		
+			var person = new endtable.Object({
+				engine: endtableEngine,//fixing.
+				saveRate: 500000,
+				dependentArray: ['apple', ['banana', 'orange']],
+				type: 'person',
+				name: 'Ben',
+				age: 27
+			});
+			person._dirty = false;
+			person.dependentArray[1].push('snuh');
+			
+			setTimeout(function() {
+				person._dirty.should.equal(true);
+			}, TIMEOUT_INTERVAL);
+			
+			this.should.assert_later()
+		end
+		
+		it "should save an object when an item is changed in an object in an array that's in an array"
+			var endtableEngine = new endtable.Engine({
+				database: 'test'
+			});	
+		
+			var person = new endtable.Object({
+				engine: endtableEngine,//fixing.
+				saveRate: 500000,
+				dependentArray: ['apple', ['banana', {'pineapple' : 'apple'}]],
+				type: 'person',
+				name: 'Ben',
+				age: 27
+			});
+			person._dirty = false;
+			person.dependentArray[1][1].pineapple = 'tasty';
+			
+			setTimeout(function() {
+				person._dirty.should.equal(true);
+			}, TIMEOUT_INTERVAL);
+			
+			this.should.assert_later()
 		end
 	end
 
