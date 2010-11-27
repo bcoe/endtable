@@ -27,6 +27,18 @@ var Person = endtable.Object.extend(
 	}
 );
 
+var Dog = endtable.Object.extend(
+	{
+		bark: function() {
+			sys.puts('Woof!!!');
+		}
+	},
+	{
+		engine: engine,
+		type: 'dog'
+	}
+);
+
 function populateData() {
 	sys.puts('Populating fake data.');
 	
@@ -36,6 +48,13 @@ function populateData() {
 		sex: 'male'
 	}, function(error, obj) {
 		sys.puts('Created person.')
+	})
+
+
+	var dog = new Dog({
+		name: 'Spike',
+		owner: 'Benjamin Coe',
+		coat: 'soft'
 	})
 
 	var ben = new Person({
@@ -72,7 +91,7 @@ function performQuery() {
 		
 		sys.puts('Performing query.');
 
-		new Person().load({
+		Person.load({
 			keys: 'age',
 			startkey: 28,
 			endkey: 50
@@ -80,6 +99,13 @@ function performQuery() {
 			for (var i = 0; i < obj.length; i++) {
 				obj[i].sayName();
 			}
+		})
+		
+		Dog.load({
+			keys: ['owner', 'coat'],
+			key: ['Benjamin Coe', 'soft']
+		}, function(error, obj) {
+			obj[0].bark();
 		})
 		
 	}, 1000);

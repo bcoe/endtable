@@ -236,9 +236,7 @@ describe 'Endtable.Object'
 				}
 			);
 			
-			endtableObject = new Person({
-				engine: endtableEngine
-			}).load({
+			endtableObject = Person.load({
 				keys: 'age',
 				startkey: 20,
 				endkey: 40
@@ -403,5 +401,9 @@ describe 'Endtable.Object'
 		}, TIMEOUT_INTERVAL);
 		
 		this.should.assert_later()
-	end	
+	end
+	
+	it 'should allow you to extend an endtable object and maintain proper behavior in the subclass'
+	
+	end
 end

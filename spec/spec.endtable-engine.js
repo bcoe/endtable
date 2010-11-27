@@ -16,7 +16,7 @@ describe 'Endtable.Engine'
 			endtableEngine.database.should.equal('production')
 		end
 		
-		it 'should not fail when a connection is attempted to a server that does not exist'
+		it 'should not explode when a connection is attempted to a server that does not exist'
 		
 		end
 	end

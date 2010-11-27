@@ -10,3 +10,16 @@ h2. Known Issues
 ** Synchronously saving documents seems to have fixed this problem.
 * Some IO operations do not fail gracefully, I would like to find a way to intercept these operations.
 ** Currently connecting to CouchDB with an invalid host or port will cause it to explode.
+
+h2. Contributing
+
+# Fork the Endtable repo on Github.
+# Write a spec in */spec* that explains the behavior you are fixing and/or adding.
+# Write the corresponding code to fix the issue.
+# run __> node spec/all-specs.js__ to run all the specs (you will need a local copy of CouchDB running)
+# Send a pull request.
+
+h2. Ideas
+
+* I would like to potentially run the underlying CouchDB driver behind a sub-process to protect against failures.
+* I would like to abstract the Getter/Setter hooks out further in preparation for adding validation hooks.
