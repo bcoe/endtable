@@ -5,7 +5,7 @@
     "version": "0.1.4",
     "author": "Ben Coe <bencoe@gmail.com>",
     "dependencies": {
-        "connect": "=0.2.4",
+        "connect": "=0.2.5",
         "request": "=0.10.0"
     },
     "engines" : ["node"],
