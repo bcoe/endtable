@@ -66,7 +66,7 @@ function populateData() {
 	
 	setTimeout(function() {
 		ben.awesome = true;
-	}, 250);
+	}, 3050);
 	
 	setTimeout(function() {
 		ben.interests.push('programming');
