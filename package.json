@@ -2,10 +2,10 @@
     "name": "endtable",
     "directories" : { "lib" : "./lib" },
     "main" : "./lib/endtable",
-    "version": "0.1.4",
+    "version": "0.1.6",
     "author": "Ben Coe <bencoe@gmail.com>",
     "dependencies": {
-        "connect": "=0.2.5",
+        "connect": "=0.2.4",
         "request": "=0.10.0"
     },
     "engines" : ["node"],
