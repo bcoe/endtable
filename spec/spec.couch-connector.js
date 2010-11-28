@@ -35,7 +35,7 @@ describe 'CouchConnector'
 			}
 		end
 
-		it 'should build a url with the get parameter descending'
+		it 'should build a URL with the get parameter descending'
 			c.loadDocument({
 				keys: ['name', 'age'],
 				type: 'person',
@@ -60,6 +60,18 @@ describe 'CouchConnector'
 			
 			lastURL.should.match('startkey=%5B%22john%22%2C%2213%22%5D')
 			lastURL.should.contain('descending=true')
+		end
+
+		it 'should build a URL with the get paremeters limit and skip'
+			c.loadDocument({
+				keys: ['name', 'age'],
+				type: 'person',
+				limit: 1,
+				skip: 1
+			})
+	    
+			lastURL.should.contain('limit=1')
+			lastURL.should.contain('skip=1')
 		end
 	end
 	
