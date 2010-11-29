@@ -96,8 +96,10 @@ function performQuery() {
 			startkey: 28,
 			endkey: 50
 		}, function(error, obj) {
-			for (var i = 0; i < obj.length; i++) {
-				obj[i].sayName();
+			if (!error) {
+				for (var i = 0; i < obj.length; i++) {
+					obj[i].sayName();
+				}
 			}
 		})
 		
@@ -105,7 +107,9 @@ function performQuery() {
 			keys: ['owner', 'coat'],
 			key: ['Benjamin Coe', 'soft']
 		}, function(error, obj) {
-			obj[0].bark();
+			if (!error) {
+				obj[0].bark();
+			}
 		})
 		
 	}, 1000);
