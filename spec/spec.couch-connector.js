@@ -62,6 +62,16 @@ describe 'CouchConnector'
 			lastURL.should.contain('descending=true')
 		end
 
+		it 'should build a URL with the get parameters startkey_docid and endkey_docid'
+			c.loadDocument({
+				startkey_docid: "foo",
+				endkey_docid: "bar"
+			})
+
+			lastURL.should.contain('startkey_docid=%22foo%22')
+			lastURL.should.contain('endkey_docid=%22bar%22')
+		end
+
 		it 'should build a URL with the get paremeters limit and skip'
 			c.loadDocument({
 				keys: ['name', 'age'],
