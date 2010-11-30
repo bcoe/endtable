@@ -199,6 +199,44 @@ describe 'Endtable.Object'
 	end
 
 	describe 'load'
+		it 'should save a loaded object when its instance variables are updated'
+			var endtableEngine = new endtable.Engine({
+				database: 'test'
+			});	
+			
+			var Person = endtable.Object.extend(
+				{
+				},
+				{
+					engine: endtableEngine,
+					type: 'person'
+				}
+			);
+		
+			var assertCallback = function(error, obj) {
+				obj[0].blarg.should.equal('blarg');
+			}
+		
+			var loadCallback = function(error, obj) {
+
+				obj[0].blarg = 'blarg';
+
+				setTimeout(function() {
+					endtableObject = Person.load({
+						keys: 'name',
+						key: 'Revision Test'
+					}, assertCallback);
+				}, TIMEOUT_INTERVAL);
+			}
+			
+			var endtableObject = Person.load({
+				keys: 'name',
+				key: 'Revision Test'
+			}, loadCallback);
+			
+			this.should.assert_later()
+		end
+	
 		it 'should populate an objects instance variables with fields from key/value store'
 			var endtableEngine = new endtable.Engine({
 				database: 'test'
@@ -209,7 +247,7 @@ describe 'Endtable.Object'
 				obj[0].age.should.equal(150)
 			}
 			
-			endtableObject = new endtable.Object({
+			var endtableObject = new endtable.Object({
 				engine: endtableEngine
 			}).load({
 				keys: 'name',
@@ -225,7 +263,7 @@ describe 'Endtable.Object'
 				database: 'test'
 			});	
 		
-			assertCallback = function(error, obj) {
+			var assertCallback = function(error, obj) {
 				(obj.length > 0).should.be_true()
 				obj[0].type.should.equal('person')
 			}
@@ -277,7 +315,7 @@ describe 'Endtable.Object'
 	
 	describe 'delete'
 		it 'should let you delete a single document'
-			assertCallback = function(error, obj) {
+			var assertCallback = function(error, obj) {
 				obj.length.should.equal(0)
 			}
 		
@@ -320,7 +358,7 @@ describe 'Endtable.Object'
 			database: 'test'
 		});
 		
-		assertCallback = function(error, obj) {
+		var assertCallback = function(error, obj) {
 			obj[0]._dirty.should.equal(false);
 			obj[0].newKey = ['apple', 'banana'];
 			
@@ -346,7 +384,7 @@ describe 'Endtable.Object'
 			database: 'test'
 		});
 		
-		assertCallback = function(error, obj) {
+		var assertCallback = function(error, obj) {
 			obj[0]._dirty.should.equal(false);
 			obj[0].age = 55
 			obj[0]._dirty.should.equal(true);

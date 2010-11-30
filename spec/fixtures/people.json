@@ -47,5 +47,12 @@
         "age": 54,
         "name": "Delete Test",
         "type": "person"
+    },
+    
+    {
+        "_rev": "1-006cc3849aeed428da73bc73bd9ce6c8",
+        "age": 54,
+        "name": "Revision Test",
+        "type": "person"
     }
 ]

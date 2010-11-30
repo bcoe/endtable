@@ -47,7 +47,7 @@ function populateData() {
 		age: 28,
 		sex: 'male'
 	}, function(error, obj) {
-		sys.puts('Created or updated person.')
+		sys.puts('Created person.')
 	})
 	
 	setTimeout(function() {
@@ -94,7 +94,7 @@ function performQuery() {
 		
 		sys.puts('Performing query.');
 
-	/*	Person.load({
+		Person.load({
 			keys: 'age',
 			startkey: 28,
 			endkey: 50
@@ -113,7 +113,7 @@ function performQuery() {
 			if (!error) {
 				obj[0].bark();
 			}
-		})*/
+		})
 		
 	}, 1000);
 }
