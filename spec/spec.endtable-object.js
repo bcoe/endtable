@@ -1,5 +1,28 @@
 describe 'Endtable.Object'
 	describe 'constructor'
+		it 'should fire a callback when a new object is created'
+			endtableEngine = new endtable.Engine({
+				database: 'test'
+			});
+			
+			var loadCallbackCalled = false;
+		
+			setTimeout(function() {
+				loadCallbackCalled.should.be_true();
+			}, TIMEOUT_INTERVAL);
+			
+			endtableObject = new endtable.Object({
+				engine: endtableEngine,
+				type: 'person',
+				name: 'Jane',
+				age: 24
+			}, function() {
+				loadCallbackCalled = true;
+			});
+			
+			this.should.assert_later()
+		end
+	
 		it 'should save a new object created'
 			endtableEngine = new endtable.Engine({
 				database: 'test'
