@@ -37,7 +37,8 @@ function runTestsAsync() {
 			'endtable-engine',
 			'couch-connector',
 			'endtable-object',
-			'error-handler'
+			'error-handler',
+			'monitored-object'
 		]
 	}
 	

@@ -8,7 +8,7 @@ h2. Known Issues
 ** I seem to have narrowed the issue down to being caused by automatic view creation when two views are created simultaneously.
 * [FIXED] Periodically a document appears to fail to load, causing a spec to fail.
 ** Synchronously saving documents seems to have fixed this problem.
-* Some IO operations do not fail gracefully, I would like to find a way to intercept these operations.
+* [Fixed] Some IO operations do not fail gracefully, I would like to find a way to intercept these operations.
 ** Currently connecting to CouchDB with an invalid host or port will cause it to explode.
 
 h2. Contributing
@@ -21,5 +21,4 @@ h2. Contributing
 
 h2. Ideas
 
-* I would like to potentially run the underlying CouchDB driver behind a sub-process to protect against failures.
 * I would like to abstract the Getter/Setter hooks out further in preparation for adding validation hooks.
