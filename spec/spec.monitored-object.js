@@ -44,4 +44,44 @@ describe 'MonitoredObject'
 			person.validators.name[0]().should.be_true();
 		end
 	end
+	
+	describe '__defineSetter__'
+		it 'should raise an error if a validator fails when an instance variable is set'
+		
+			var Person = endtable.Object.extend(
+				{
+					validatesName: function() {
+						return true;
+					},
+					
+					validatesAge: [
+						function(age) {
+							return typeof age == 'number';
+						}
+					]
+				},
+				{
+					engine: engine,
+					type: 'person'
+				}
+			);
+			
+			var errorRaised = false;
+			
+			person = new Person({
+				age: 25,
+				errorCallback: function(error) {
+					error.error.should.equal('validation');
+					errorRaised = true;
+				}
+			});
+						
+			person.age = 'Ben';
+			
+			setTimeout(function() {
+				errorRaised.should.be_true();
+			}, TIMEOUT_INTERVAL);
+			
+		end
+	end
 end
