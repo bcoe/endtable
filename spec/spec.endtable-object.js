@@ -199,6 +199,43 @@ describe 'Endtable.Object'
 	end
 
 	describe 'load'
+		it 'should load an object when the _id parameter is set'
+			var endtableEngine = new endtable.Engine({
+				database: 'test'
+			});	
+			
+			var Person = endtable.Object.extend(
+				{
+				},
+				{
+					engine: endtableEngine,
+					type: 'person'
+				}
+			);
+			
+			var loaded = false;
+			
+			var loadCallback = function(error, object) {
+				object[0].name.should.equal('Revision Test');
+				loaded = true;
+			}
+			
+			var assertCallback = function() {
+				loaded.should.be_true();
+			}
+			
+			var endtableObject = Person.load({
+				keys: '_id',
+				key: '12354224'
+			}, loadCallback);
+			
+			setTimeout(function() {
+				assertCallback();
+			}, TIMEOUT_INTERVAL);
+			
+			this.should.assert_later()
+		end
+	
 		it 'should save a loaded object when its instance variables are updated'
 			var endtableEngine = new endtable.Engine({
 				database: 'test'
