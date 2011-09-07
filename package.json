@@ -1,12 +1,12 @@
 {
     "name": "endtable",
     "directories" : { "lib" : "./lib" },
-    "main" : "./lib/endtable",
-    "version": "0.2.1",
+    "main" : "./lib/index",
+    "version": "0.2.2",
     "author": "Ben Coe <bencoe@gmail.com>",
     "dependencies": {
-        "connect": "=0.2.4",
-        "request": "=0.10.0"
+        "connect": "=1.7.0",
+        "request": "=2.1.1"
     },
     "engines" : ["node"],
     "description" : "An Object Mapper built on top of CouchDB.",

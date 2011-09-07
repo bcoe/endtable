@@ -4,9 +4,9 @@ require('./lib/jspec');
 var fs = require('fs');
 var sys = require('sys');
 
-errorHandler = require('../lib/endtable/error-handler');
+errorHandler = require('../lib/error-handler');
 endtable = require('endtable');
-connector = require('../lib/endtable/couch-connector');
+connector = require('../lib/couch-connector');
 
 // Constants for tests.
 TIMEOUT_INTERVAL = 2000; // What should timeouts for asych tasks default to.
