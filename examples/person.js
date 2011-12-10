@@ -88,7 +88,6 @@ function populateData() {
 }
 
 function performQuery() {
-		
 	setTimeout(function() {
 		
 		sys.puts('Performing query.');

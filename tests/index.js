@@ -1,8 +1,9 @@
 var endtable = require('../lib'),
 	fs = require('fs'),
-	couchConnectorTests = require('./couch-connector-test'),
 	puts = require('sys').puts,
-	tests = [];
+	tests = [],
+	couchConnectorTests = require('./couch-connector-test'),
+	endtableEngineTests = require('./endtable-engine-test');
 	
 var engine = new endtable.Engine({
 	database: 'test',
@@ -66,3 +67,4 @@ function addTests(testsObject) {
 })();
 
 addTests(couchConnectorTests.tests);
+addTests(endtableEngineTests.tests);
