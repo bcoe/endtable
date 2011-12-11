@@ -23,6 +23,7 @@ var engine = new endtable.Engine({
 		sys.puts(JSON.stringify(error));
 	}
 });
+```
  
 The Error Callback
 ------------------
