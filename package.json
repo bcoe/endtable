@@ -2,14 +2,14 @@
     "name": "endtable",
     "directories" : { "lib" : "./lib" },
     "main" : "./lib/index",
-    "version": "0.2.2",
+    "version": "1.0.0",
     "author": "Ben Coe <bencoe@gmail.com>",
     "dependencies": {
         "connect": "=1.8.2",
         "request": "=2.2.9"
     },
     "engines" : ["node"],
-    "description" : "An Object Mapper built on top of CouchDB.",
+    "description" : "An experimental ORM for CouchDB.",
     "keywords" : ["couch", "couchdb", "orm"],
     "repository": {
         "type": "git",
