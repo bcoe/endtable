@@ -1,7 +1,7 @@
 var sys = require('sys');
 sys.puts('Running... Hit CTRL-C To Exit.');
 
-var endtable = require('endtable');
+var endtable = require('../lib');
 
 var engine = new endtable.Engine({
 	database: 'people_example',

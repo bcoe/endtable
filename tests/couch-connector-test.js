@@ -178,11 +178,11 @@ exports.tests = {
 	},
 	
 	'when two createView calls are executed in a row it should add both views to a design': function(finished, prefix) {
-		endtableEngine = new endtable.Engine({
+		var endtableEngine = new endtable.Engine({
 			database: 'test'
 		});
 
-		c = endtableEngine.connector
+		var c = endtableEngine.connector
 		
 		function createTwoViews() {
 			c.createView({

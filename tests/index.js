@@ -1,8 +1,8 @@
 var endtable = require('../lib'),
-	fs = require('fs'),
 	puts = require('sys').puts,
 	tests = [],
 	couchConnectorTests = require('./couch-connector-test'),
+	endtableObjectTests = require('./endtable-object-test'),
 	endtableEngineTests = require('./endtable-engine-test');
 	
 var engine = new endtable.Engine({
@@ -38,33 +38,7 @@ function addTests(testsObject) {
 	}
 }
 
-(function loadFixtures() {
-	var fixtures = {
-		'people': ''
-	};
-	var size = 0;
-	var count = 0;
-	
-	for (var fixtureName in fixtures) {
-		if (fixtures.hasOwnProperty(fixtureName)) {
-			fixtures[fixtureName] = JSON.parse( fs.readFileSync('tests/fixtures/' + fixtureName + '.json') );
-			size += fixtures[fixtureName].length;
-		}
-	}
-
-	for (var fixtureName in fixtures) {
-		if (fixtures.hasOwnProperty(fixtureName)) {
-			for (var i = 0, fixture; (fixture = fixtures[fixtureName][i]) != null; i++) {
-				engine.saveDocument({type: fixture.type, fields: fixture}, function(error, doc) {
-					count++;
-					if (count == size) {
-						tests.shift()();
-					}
-				});
-			}
-		}
-	}
-})();
-
 addTests(couchConnectorTests.tests);
 addTests(endtableEngineTests.tests);
+addTests(endtableObjectTests.tests);
+tests.shift()();
