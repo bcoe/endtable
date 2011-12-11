@@ -132,7 +132,7 @@ Examples
 
 Run _node examples/person.js_ to get an idea of Endtable in action.
 
-Contributing to karait
+Contributing to Endtable
 ----------------------
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
