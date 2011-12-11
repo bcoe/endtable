@@ -109,7 +109,7 @@ Dog.load({
 * _keys_ indicates the keys that an object will be looked up by. A CouchDB view will be generated to allow for this lookup.
 * _key_ is a set of concrete values that correspond with the keys described in keys.
 
-You can also load objects based on a range of keys.
+You can also load objects based on a range of values.
 
 ```javascript
 Person.load({
