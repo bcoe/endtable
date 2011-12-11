@@ -51,41 +51,28 @@ exports.tests = {
 		
 		var c = endtableEngine.connector;
 	
-		function updateExistingView() {
-			// Create the first view of the data.
-			endtableEngine.loadDocument({
-				keys: ['age', 'name'],
-				type: 'update_view_test'
-			}, function(error, doc) {
+		// Create the first view of the data.
+		endtableEngine.loadDocument({
+			keys: ['age', 'name'],
+			type: 'update_view_test'
+		}, function(error, doc) {
 
-				// Create the second view of the data.
-				endtableEngine.loadDocument({
-					keys: 'age',
-					type: 'update_view_test'
-				}, function() {
-			
-					// Examine the design created.
-					endtableEngine.loadDocument('_design/update_view_test', function(error, doc) {
-						if (typeof doc.views.by_age_name == 'object') {
-							if (typeof doc.views.by_age == 'object') {
-								finished();
-							}
-						}
-					});
-			
-				})
-			});
-		}
+			// Create the second view of the data.
+			endtableEngine.loadDocument({
+				keys: 'age',
+				type: 'update_view_test'
+			}, function() {
 		
-		// Make sure the database is empty before creating the two views.
-		endtableEngine.loadDocument('_design/update_view_test', function(error, doc) {
-			if (doc) {
-				c.deleteDocument({_id: doc._id, _rev: doc._rev}, function(err, doc) {
-					updateExistingView();
+				// Examine the design created.
+				endtableEngine.loadDocument('_design/update_view_test', function(error, doc) {
+					if (typeof doc.views.by_age_name == 'object') {
+						if (typeof doc.views.by_age == 'object') {
+							finished();
+						}
+					}
 				});
-			} else {
-				updateExistingView();
-			}
+		
+			})
 		});
 	},
 	
@@ -96,31 +83,18 @@ exports.tests = {
 		
 		var c = endtableEngine.connector;
 	
-		function saveDocument() {
-			endtableEngine.saveDocument({
-				type: 'person',
-				fields: {
-					'name': 'Benjamin Coe',
-					'age': 28
-				}
-			}, function(error, doc) {
-				endtableEngine.loadDocument(doc.id, function(error, doc) {
-					equal('Benjamin Coe', doc.name, prefix + ' name not set.');
-					equal(28, doc.age, prefix + ' age not set.');
-					finished();
-				});
-			});
-		}
-		
-		// Make sure the database is empty before creating the two views.
-		endtableEngine.loadDocument('_design/person', function(error, doc) {
-			if (doc) {
-				c.deleteDocument({_id: doc._id, _rev: doc._rev}, function(err, doc) {
-					saveDocument();
-				});
-			} else {
-				saveDocument();
+		endtableEngine.saveDocument({
+			type: 'person',
+			fields: {
+				'name': 'Benjamin Coe',
+				'age': 28
 			}
+		}, function(error, doc) {
+			endtableEngine.loadDocument(doc.id, function(error, doc) {
+				equal('Benjamin Coe', doc.name, prefix + ' name not set.');
+				equal(28, doc.age, prefix + ' age not set.');
+				finished();
+			});
 		});
 	}
 }

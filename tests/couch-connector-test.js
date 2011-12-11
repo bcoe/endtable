@@ -167,16 +167,6 @@ exports.tests = {
 		finished();
 	},
 	
-	'should create a map function with an array when multiple keys are provided': function(finished, prefix) {
-		var c = createMockConnection();
-		c.createView({
-			keys: ['name', 'age'],
-			type: 'person'
-		});
-		equal(true, lastDocument.views.by_name_age.map.indexOf('emit([doc.name, doc.age], doc);') > 0, prefix + ' map function not properly created.');
-		finished();
-	},
-	
 	'when two createView calls are executed in a row it should add both views to a design': function(finished, prefix) {
 		var endtableEngine = new endtable.Engine({
 			database: 'test'
@@ -184,39 +174,27 @@ exports.tests = {
 
 		var c = endtableEngine.connector
 		
-		function createTwoViews() {
-			c.createView({
-				keys: ['name', 'type', 'age'],
-				type: 'two_view_test'
-			});
-			
-			c.createView({
-				keys: ['type', 'name', 'age'],
-				type: 'two_view_test'
-			});
-		
-			var intervalId = setInterval(function() {
-				endtableEngine.loadDocument('_design/two_view_test', function(error, doc) {
-					if (typeof doc.views.by_name_type_age == 'object') {
-						if (typeof doc.views.by_type_name_age == 'object') {
-							clearInterval(intervalId);
-							finished();
-						}
-					};
-				});
-			}, 50);
-		}
-		
-		// Make sure the database is empty before creating the two views.
-		endtableEngine.loadDocument('_design/two_view_test', function(error, doc) {
-			if (doc) {
-				c.deleteDocument({_id: doc._id, _rev: doc._rev}, function(err, doc) {
-					createTwoViews();
-				});
-			} else {
-				createTwoViews();
-			}
+		c.createView({
+			keys: ['name', 'type', 'age'],
+			type: 'two_views_test'
 		});
+		
+		c.createView({
+			keys: ['type', 'name', 'age'],
+			type: 'two_views_test'
+		});
+	
+		var intervalId = setInterval(function() {
+			endtableEngine.loadDocument('_design/two_views_test', function(error, doc) {
+				if (!doc) return;
+				if (typeof doc.views.by_name_type_age == 'object') {
+					if (typeof doc.views.by_type_name_age == 'object') {
+						clearInterval(intervalId);
+						finished();
+					}
+				};
+			});
+		}, 50);
 	}
 };
 

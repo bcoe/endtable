@@ -22,7 +22,13 @@ function run(callback, test) {
 			}
 			
 			var nextTest = tests.shift();
-			nextTest();
+
+			engine.connector.deleteDatabase(function(error, doc) {
+				engine.connector.createDatabase(function(error, doc) {
+					nextTest();
+				});
+			});
+			
 		},
 		test + ': '
 	);
