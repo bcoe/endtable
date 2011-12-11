@@ -57,10 +57,10 @@ var Dog = endtable.Object.extend(
 );
 ```
 
-* The first parameter contains all the methods that will be inherited by objects that instantiate the class.
-* The second parameter provides meta information:
-** _type_ represents the corresponding CouchDB resource name.
-** _engine_ is an instance of the Endtable Engine described previously.
+- The first parameter contains all the methods that will be inherited by objects that instantiate the class.
+- The second parameter provides meta information:
+* _type_ represents the corresponding CouchDB resource name.
+* _engine_ is an instance of the Endtable Engine described previously.
 
 Creating ORM-Backed Objects
 ---------------------------
