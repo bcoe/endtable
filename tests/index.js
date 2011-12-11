@@ -3,6 +3,8 @@ var endtable = require('../lib'),
 	tests = [],
 	couchConnectorTests = require('./couch-connector-test'),
 	endtableObjectTests = require('./endtable-object-test'),
+	endtableErrorHandlerTests = require('./endtable-error-handler-test'),
+	monitoredObjectTests = require('./monitored-object-test'),
 	endtableEngineTests = require('./endtable-engine-test');
 	
 var engine = new endtable.Engine({
@@ -47,4 +49,6 @@ function addTests(testsObject) {
 addTests(couchConnectorTests.tests);
 addTests(endtableEngineTests.tests);
 addTests(endtableObjectTests.tests);
+addTests(endtableErrorHandlerTests.tests);
+addTests(monitoredObjectTests.tests);
 tests.shift()();
