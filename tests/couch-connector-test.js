@@ -56,6 +56,26 @@ exports.tests = {
 		equal('/_design/person/_view/by_name_age?descending=true', lastUrl, prefix + ' proper RESTful url not created.');
 		finished();
 	},
+
+	'should generate a restful URL based on custom view': function(finished, prefix) {
+		var lastUrl = null;
+		c = new connector({
+			database: 'test'
+		})
+		c.connection = {
+			request: function(url) {
+				lastUrl = url;
+			}
+		}
+		c.loadDocument({
+			keys: ['name', 'age'],
+      custom_view: function(doc){emit(doc.id);},
+      custom_view_name: 'test_view',
+			type: 'person'
+		})
+		equal('/_design/person/_view/custom_test_view', lastUrl, prefix + ' proper RESTful url not created.');
+		finished();
+	},
 	
 	'should build a URL with the get parameters descending and startkey': function(finished, prefix) {
 		var lastUrl = null;
@@ -169,7 +189,7 @@ exports.tests = {
 	
 	'when two createView calls are executed in a row it should add both views to a design': function(finished, prefix) {
 		var endtableEngine = new endtable.Engine({
-			database: 'test'
+			database: 'test',
 		});
 
 		var c = endtableEngine.connector
@@ -183,7 +203,6 @@ exports.tests = {
 			keys: ['type', 'name', 'age'],
 			type: 'two_views_test'
 		});
-	
 		var intervalId = setInterval(function() {
 			endtableEngine.loadDocument('_design/two_views_test', function(error, doc) {
 				if (!doc) return;
@@ -195,7 +214,63 @@ exports.tests = {
 				};
 			});
 		}, 50);
-	}
+	},
+
+  'should create the specified map function myFn when createView is called with params custom_view:myFn and custom_view_name:\'my_custom_view\'': function(finished, prefix) {
+    var c = createMockConnection();
+
+    var custom_view = function(doc) {
+      if(doc.type == 'custom_view_test') {
+        emit( toLower(doc.id+'_CUSTOM_TEST'), doc);
+      }
+    };
+
+    var cv_name = 'lower_docid';
+
+    c.createView({
+      custom_view:custom_view,
+      custom_view_name:cv_name,
+      type:'custom_view_test'
+    });
+    equal(true, lastDocument.views[c.buildCustomViewName(cv_name)].map.indexOf('_CUSTOM_TEST') > 0, prefix + ' custom map function not properly created.');
+    finished();
+  },
+
+  'should raise an error when createView is called with param custom_view:myFn but no custom_view_name': function(finished, prefix) {
+    var c = createMockConnection();
+
+    var custom_view = function(doc) {
+      if(doc.type == 'custom_view_test') {
+        emit( toLower(doc.id+'_CUSTOM_TEST'), doc);
+      }
+    };
+
+    var cv_name = 'lower_docid';
+
+    c.createView({
+      custom_view:custom_view,
+      type:'custom_view_test'
+    }, function(error,doc) {
+      equal(true,error.message == 'Need to specify custom_view_name parameter',prefix + 'not specifying custom_view_name did not raise an error in createView');
+      finished();
+    });
+  },
+
+  'should raise an error when createView is called with param custom_view with value that is not a function': function(finished, prefix) {
+    var c = createMockConnection();
+   
+    var cv_name = 'lower_docid';
+
+    c.createView({
+      custom_view:'not a function',
+      custom_view_name:cv_name,
+      type:'custom_view_test'
+    }, function(error,doc) {
+      equal(true,error.message == 'custom_view must be a function',prefix + 'setting custom_view to something other than a function did not raise an error in createView');
+      finished();
+    });
+  }
+
 };
 
 
