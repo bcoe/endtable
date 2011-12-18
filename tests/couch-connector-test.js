@@ -68,9 +68,8 @@ exports.tests = {
 			}
 		}
 		c.loadDocument({
-			keys: ['name', 'age'],
-      custom_view: function(doc){emit(doc.id);},
-      custom_view_name: 'test_view',
+			keys: ['name'],
+      customView: 'test_view',
 			type: 'person'
 		})
 		equal('/_design/person/_view/custom_test_view', lastUrl, prefix + ' proper RESTful url not created.');
@@ -216,27 +215,26 @@ exports.tests = {
 		}, 50);
 	},
 
-  'should create the specified map function myFn when createView is called with params custom_view:myFn and custom_view_name:\'my_custom_view\'': function(finished, prefix) {
+  'should create the specified map function myFn when createCustomView is called with params customView:myFn': function(finished, prefix) {
     var c = createMockConnection();
 
-    var custom_view = function(doc) {
+    var customView = function custom(doc) {
       if(doc.type == 'custom_view_test') {
         emit( toLower(doc.id+'_CUSTOM_TEST'), doc);
       }
     };
 
-    var cv_name = 'lower_docid';
+    var cv_name = customView.name;
 
-    c.createView({
-      custom_view:custom_view,
-      custom_view_name:cv_name,
+    c.createCustomView({
+      customView:customView,
       type:'custom_view_test'
     });
     equal(true, lastDocument.views[c.buildCustomViewName(cv_name)].map.indexOf('_CUSTOM_TEST') > 0, prefix + ' custom map function not properly created.');
     finished();
   },
 
-  'should raise an error when createView is called with param custom_view:myFn but no custom_view_name': function(finished, prefix) {
+  'should raise an error when createCustomView is called with param customView:myFn that is not a named function': function(finished, prefix) {
     var c = createMockConnection();
 
     var custom_view = function(doc) {
@@ -245,28 +243,25 @@ exports.tests = {
       }
     };
 
-    var cv_name = 'lower_docid';
-
-    c.createView({
-      custom_view:custom_view,
+    c.createCustomView({
+      customView:custom_view,
       type:'custom_view_test'
     }, function(error,doc) {
-      equal(true,error.message == 'Need to specify custom_view_name parameter',prefix + 'not specifying custom_view_name did not raise an error in createView');
+      equal(true,error.message == 'params.customView must be a named function',prefix + 'setting customView to an anonymous function did not raise an error in createCustomView');
       finished();
     });
   },
 
-  'should raise an error when createView is called with param custom_view with value that is not a function': function(finished, prefix) {
+  'should raise an error when createCustomView is called with param custom_view with value that is not a function': function(finished, prefix) {
     var c = createMockConnection();
    
     var cv_name = 'lower_docid';
 
-    c.createView({
-      custom_view:'not a function',
-      custom_view_name:cv_name,
+    c.createCustomView({
+      customView:'not a function',
       type:'custom_view_test'
     }, function(error,doc) {
-      equal(true,error.message == 'custom_view must be a function',prefix + 'setting custom_view to something other than a function did not raise an error in createView');
+      equal(true,error.message == 'params.customView must be a named function',prefix + 'setting custom_view to something other than a function did not raise an error in createCustomView');
       finished();
     });
   }
