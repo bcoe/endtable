@@ -188,7 +188,7 @@ exports.tests = {
 	
 	'when two createView calls are executed in a row it should add both views to a design': function(finished, prefix) {
 		var endtableEngine = new endtable.Engine({
-			database: 'test',
+			database: 'test'
 		});
 
 		var c = endtableEngine.connector
@@ -254,8 +254,6 @@ exports.tests = {
 
   'should raise an error when createCustomView is called with param custom_view with value that is not a function': function(finished, prefix) {
     var c = createMockConnection();
-   
-    var cv_name = 'lower_docid';
 
     c.createCustomView({
       customView:'not a function',
