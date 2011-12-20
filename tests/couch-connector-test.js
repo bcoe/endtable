@@ -251,7 +251,7 @@ exports.tests = {
 			equal(true,error.message == 'params.customView must be a named function',prefix + 'setting customView to an anonymous function did not raise an error in createCustomView');
 			finished();
 		});
-	  },
+	},
 	
 	'should raise an error when createCustomView is called with param custom_view with value that is not a function': function(finished, prefix) {
 		var c = createMockConnection();
