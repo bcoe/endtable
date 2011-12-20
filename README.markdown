@@ -53,13 +53,13 @@ var Dog = endtable.Object.extend(
 	{
 		engine: engine,
 		type: 'dog',
-    customViews: [
-      function lowerName(doc) {
-        if(doc.type=='dog')
-          emit(doc.name.toLowerCase(),doc); 
-      },
-      function otherNamedView(doc) { ... }
-    ]
+		customViews: [
+		  function lowerName(doc) {
+			if(doc.type=='dog')
+			  emit(doc.name.toLowerCase(),doc); 
+			},
+		  function otherNamedView(doc) { ... }
+		]
 	}
 );
 ```
@@ -142,7 +142,7 @@ You can also load an object with a custom view function applied to it.
 ```javascript
 Dog.load({
 	keys: 'name',
-  customView: 'lowerName'
+    customView: 'lowerName'
 }, function(error, obj) {
 	if (!error) {
 		for (var i = 0; i < obj.length; i++) {
