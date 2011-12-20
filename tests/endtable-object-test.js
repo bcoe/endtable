@@ -368,5 +368,47 @@ exports.tests = {
 				}, 300);
 			});
 		});
+	},
+
+	'should use custom view to load objects': function(finished, prefix) {
+		var endtableEngine = new endtable.Engine({
+			database: 'test'
+		});	
+	
+		var Person = endtable.Object.extend({}, 
+			{
+				engine: endtableEngine,
+				type: 'person',
+				customViews: [
+					function matchesA(doc) {if(doc.type=='person'){emit('a',doc);}}
+				]
+			}
+		);
+		
+		new Person({
+			name: 'Mark Twain',
+			age: 293
+		}, function() {
+			new Person({
+				name: 'Tom Sawyer',
+				age: 13
+			}, function() {
+		
+				Person.load(
+					{
+						keys: 'name',
+						key: 'a',
+						customView: 'matchesA'
+					},
+					function (error,obj) {
+						if(!error) {
+							equal(true,obj.length==2,prefix);
+							finished();
+						}
+					}
+				);
+			});
+		});
 	}
+
 };
