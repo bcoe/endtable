@@ -52,7 +52,14 @@ var Dog = endtable.Object.extend(
 	},
 	{
 		engine: engine,
-		type: 'dog'
+		type: 'dog',
+    customViews: [
+      function lowerName(doc) {
+        if(doc.type=='dog')
+          emit(doc.name.toLowerCase(),doc); 
+      },
+      function otherNamedView(doc) { ... }
+    ]
 	}
 );
 ```
@@ -61,6 +68,9 @@ var Dog = endtable.Object.extend(
 - The second parameter provides meta information:
     - _engine_ is an instance of the Endtable Engine described previously.
     - _type_ represents the corresponding CouchDB resource name.
+    - _customViews_ is an array containing custom view functions to be
+      created on the couchdb server
+      - all the functions *must* be named functions
 
 Creating ORM-Backed Objects
 ---------------------------
@@ -126,6 +136,24 @@ Person.load({
 ```
 
 This will load individuals with an age ranging from 28 to 50.
+
+You can also load an object with a custom view function applied to it.
+
+```javascript
+Dog.load({
+	keys: 'name',
+  customView: 'lowerName'
+}, function(error, obj) {
+	if (!error) {
+		for (var i = 0; i < obj.length; i++) {
+			obj[i].sayName();
+		}
+	}
+})
+```
+* _customView_ is the name of a custom view function you defined when you defined the object
+* You can add in other parameters to filter the results as shown in previous examples
+
 
 Examples
 --------
