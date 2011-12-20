@@ -54,11 +54,11 @@ var Dog = endtable.Object.extend(
 		engine: engine,
 		type: 'dog',
 		customViews: [
-		  function lowerName(doc) {
+		function lowerName(doc) {
 			if(doc.type=='dog')
 			  emit(doc.name.toLowerCase(),doc); 
 			},
-		  function otherNamedView(doc) { ... }
+		function otherNamedView(doc) { ... }
 		]
 	}
 );
