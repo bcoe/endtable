@@ -1,5 +1,5 @@
-var sys = require('sys');
-sys.puts('Running... Hit CTRL-C To Exit.');
+var util = require('util');
+util.puts('Running... Hit CTRL-C To Exit.');
 
 var endtable = require('../lib');
 
@@ -10,14 +10,14 @@ var engine = new endtable.Engine({
 	password: '',
 	errorCallback: function(error) {
 		// When views aren't found they raise a warning.
-		sys.puts(JSON.stringify(error));
+		util.puts(JSON.stringify(error));
 	}
 });
 
 var Person = endtable.Object.extend(
 	{
 		sayName: function() {
-			sys.puts('Hello, my name is ' + this.name + '!');
+			util.puts('Hello, my name is ' + this.name + '!');
 		}
 	},
 	{
@@ -29,7 +29,7 @@ var Person = endtable.Object.extend(
 var Dog = endtable.Object.extend(
 	{
 		bark: function() {
-			sys.puts('Woof!!!');
+			util.puts('Woof!!!');
 		}
 	},
 	{
@@ -39,14 +39,14 @@ var Dog = endtable.Object.extend(
 );
 
 function populateData() {
-	sys.puts('Populating fake data.');
+	util.puts('Populating fake data.');
 	
 	var christian = new Person({
 		name: 'Christian',
 		age: 28,
 		sex: 'male'
 	}, function(error, obj) {
-		sys.puts('Created person.')
+		util.puts('Created person.')
 	})
 	
 	setTimeout(function() {
@@ -90,7 +90,7 @@ function populateData() {
 function performQuery() {
 	setTimeout(function() {
 		
-		sys.puts('Performing query.');
+		util.puts('Performing query.');
 
 		Person.load({
 			keys: 'age',
@@ -117,7 +117,7 @@ function performQuery() {
 }
 
 (function resetDatabase(callback) {
-	sys.puts('Resetting database.'); 
+	util.puts('Resetting database.'); 
 	engine.connector.deleteDatabase(function() {
 		engine.connector.createDatabase(function(error, doc) {
 			callback();

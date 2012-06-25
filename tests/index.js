@@ -1,5 +1,5 @@
 var endtable = require('../lib'),
-	puts = require('sys').puts,
+	puts = require('util').puts,
 	tests = [],
 	couchConnectorTests = require('./couch-connector-test'),
 	endtableObjectTests = require('./endtable-object-test'),
